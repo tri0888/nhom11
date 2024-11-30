@@ -1,0 +1,105 @@
+﻿@model Models.EF.News
+
+@{
+    ViewBag.Title = "Chỉnh sửa tin tức";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">@ViewBag.Title</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Thông tin tin tức</h6>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.NewsId)
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Title, "Tiêu đề", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Detail, "Chi tiết", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", rows = "5", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Photo, "Hình ảnh", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @if (!string.IsNullOrEmpty(Model.Photo))
+                        {
+                            <div class="mb-2">
+                                <img src="@Url.Content("~/image/" + Model.Photo + "?v=" + DateTime.Now.Ticks)" class="img-thumbnail" style="max-height: 150px" alt="@Model.Title"/>
+                            </div>
+                        }
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="UploadImage" name="UploadImage">
+                            <label class="custom-file-label" for="UploadImage">Chọn file...</label>
+                        </div>
+                        @Html.HiddenFor(model => model.Photo)
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.DateUpdate, "Ngày cập nhật", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.DateUpdate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DateUpdate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-10 offset-sm-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save mr-2"></i>Lưu thay đổi
+                        </button>
+                        <a href="@Url.Action("Show")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left mr-2"></i>Quay lại
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Hiển thị tên file và preview ảnh khi chọn
+        $('.custom-file-input').on('change', function () {
+            let input = this;
+            let fileName = $(input).val().split('\\').pop();
+            $(input).next('.custom-file-label').html(fileName);
+
+            // Hiển thị preview ảnh
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e) {
+                    // Tìm hoặc tạo thẻ img để preview
+                    var previewImg = $('.img-thumbnail');
+                    if (previewImg.length === 0) {
+                        previewImg = $('<img class="img-thumbnail" style="max-height: 150px">');
+                        $('.mb-2').append(previewImg);
+                    }
+                    // Cập nhật src của ảnh preview
+                    previewImg.attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+    </script>
+}

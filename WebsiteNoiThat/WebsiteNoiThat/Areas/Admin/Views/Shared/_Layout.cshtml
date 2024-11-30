@@ -1,0 +1,188 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Trang quản trị</title>
+
+    <!-- Custom fonts -->
+    <link href="~/Content/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap&subset=vietnamese" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link href="~/Content/admin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/Content/admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <!-- Trong _Layout.cshtml -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    @RenderSection("Styles", required: false)
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="~/Admin">
+                <div class="sidebar-brand-text mx-3">TRANG QUẢN LÝ</div>
+            </a>
+            
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">BÁN HÀNG</div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo">
+                    <i class="fas fa-box-open"></i>
+                    <span>Sản phẩm</span>
+                </a>
+                <div id="collapseTwo" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/Admin/Product/Show">Sản phẩm</a>
+                        <a class="collapse-item" href="/Admin/ProductCate/Show">Loại sản phẩm</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/Provider/Show">
+                    <i class="fas fa-truck"></i>
+                    <span>Nhà cung cấp</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/Orders/Show">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Đơn đặt hàng</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/Report/Viewmodel">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Thống kê - Báo cáo</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">NGƯỜI DÙNG</div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/Customer/Show">
+                    <i class="fas fa-users"></i>
+                    <span>Khách hàng</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Admin/User/Show">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Nhân viên</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Phân quyền</span>
+                </a>
+                <div id="collapsePages" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/Admin/Roles/Index">Vai trò</a>
+                        <a class="collapse-item" href="/Admin/Credentials/Index">Quyền hạn</a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">NỘI DUNG WEBSITE</div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseContent">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Quản lý nội dung</span>
+                </a>
+                <div id="collapseContent" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="@Url.Action("Show", "News", new { area = "Admin" })">
+                            <i class="fas fa-newspaper fa-sm fa-fw mr-2"></i>Tin tức
+                        </a>
+                        <a class="collapse-item" href="@Url.Action("Index", "Contact", new { area = "Admin" })">
+                            <i class="fas fa-envelope fa-sm fa-fw mr-2"></i>Liên hệ
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600">@ViewBag.username</span>
+                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/6W4F62sN_yI/60x60">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+                                <a class="dropdown-item" href="~/Admin/User/UserProfile">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Thông tin
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="~/Admin/Login/Logout">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Đăng xuất
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Core JavaScript-->
+    <script src="~/Content/admin/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Content/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Content/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/Content/admin/js/sb-admin-2.min.js"></script>
+    <script src="~/Content/admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Areas/Scripts/datatables-config.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "30000"
+        };
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

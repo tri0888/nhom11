@@ -1,0 +1,106 @@
+﻿@model IEnumerable<WebsiteNoiThat.Models.UserModelView>
+
+@{
+    ViewBag.Title = "Danh sách khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Danh sách khách hàng</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách khách hàng</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                @Html.AntiForgeryToken()
+                <table class="table table-bordered datatable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Mã KH</th>
+                            <th>Họ tên</th>
+                            <th>Địa chỉ</th>
+                            <th>Số điện thoại</th>
+                            <th>Tên đăng nhập</th>
+                            <th>Email</th>
+                            <th>Điểm tích</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.UserId</td>
+                                <td>@item.Name</td>
+                                <td>@item.Address</td>
+                                <td>@item.Phone</td>
+                                <td>@item.Username</td>
+                                <td>@item.Email</td>
+                                <td>@item.NumberCard</td>
+                                <td class="text-center">
+                                    @if (item.Status)
+                                    {
+                                        <span class="badge badge-success">Đang hoạt động</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Đã khóa</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        @if (item.Status)
+                                        {
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="toggleStatus(@item.UserId, false)" title="Khóa">
+                                                <i class="fas fa-lock"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-success btn-sm" onclick="toggleStatus(@item.UserId, true)" title="Mở khóa">
+                                                <i class="fas fa-unlock"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleStatus(userId, newStatus) {
+            var message = newStatus ? "Bạn có chắc muốn mở khóa tài khoản này?" : "Bạn có chắc muốn khóa tài khoản này?";
+            
+            if (confirm(message)) {
+                $.ajax({
+                    url: '@Url.Action("ToggleStatus", "Customer")',
+                    type: 'POST',
+                    data: {
+                        userId: userId,
+                        status: newStatus,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi kết nối với server');
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+

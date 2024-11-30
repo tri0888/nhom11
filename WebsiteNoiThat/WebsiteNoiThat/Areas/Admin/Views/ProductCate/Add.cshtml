@@ -1,0 +1,62 @@
+﻿@model Models.EF.Category
+
+@{
+    ViewBag.Title = "Thêm loại sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Thêm loại sản phẩm mới</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Thông tin loại sản phẩm</h6>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Add", "ProductCate", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Tên loại sản phẩm</th>
+                            <td>
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Diễn giải</th>
+                            <td>
+                                @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Mã loại cha</th>
+                            <td>
+                                @Html.EditorFor(model => model.ParId, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                @Html.ValidationMessageFor(model => model.ParId, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="text-right mt-3">
+                    <a href="@Url.Action("Show", "ProductCate")" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Hủy
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Thêm mới
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

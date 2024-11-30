@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Models.EF.User>
+@{
+    ViewBag.Title = "Quản lý nhân viên";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Quản lý nhân viên</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
+            <a href="@Url.Action("Add", "User")" class="btn btn-primary">
+                <i class="fas fa-plus mr-2"></i>Thêm nhân viên
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover datatable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Mã nhân viên</th>
+                            <th>Họ tên</th>
+                            <th>Địa chỉ</th>
+                            <th>Số điện thoại</th>
+                            <th>Tên đăng nhập</th>
+                            <th>Mật khẩu</th>
+                            <th>Email</th>
+                            <th>Quyền</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.UserId</td>
+                                <td>@item.Name</td>
+                                <td>@item.Address</td>
+                                <td>@item.Phone</td>
+                                <td>@item.Username</td>
+                                <td>******</td>
+                                <td>@item.Email</td>
+                                <td>@item.GroupId</td>
+                                <td>@item.Status</td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Edit", "User", new { UserId = item.UserId })" 
+                                           class="btn btn-warning btn-sm" title="Sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", "User", new { userId = item.UserId })" 
+                                           class="btn btn-danger btn-sm btn-delete" 
+                                           data-id="@item.UserId"
+                                           title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Areas/Scripts/datatables-config.js"></script>
+    <script src="~/Scripts/deleteModal.js"></script>
+}
+
+@Html.AntiForgeryToken()
+@Html.Partial("_DeleteModal")
+
+

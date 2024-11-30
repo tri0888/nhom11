@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Models.EF.Role>
+
+@{
+    ViewBag.Title = "Quản lý chức năng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Quản lý chức năng</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách chức năng</h6>
+            <a href="@Url.Action("Create", "Roles")" class="btn btn-primary">
+                <i class="fas fa-plus mr-2"></i>Thêm chức năng
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover datatable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Mã chức năng</th>
+                            <th>Tên chức năng</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.RoleId</td>
+                                <td>@item.Name</td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Edit", "Roles", new { id = item.RoleId })" 
+                                           class="btn btn-warning btn-sm" title="Sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("DeleteRole", "Roles", new { area = "Admin" })" 
+                                           class="btn btn-danger btn-sm btn-delete" 
+                                           data-id="@item.RoleId"
+                                           title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+@Html.Partial("_DeleteModal")
+
+@section Scripts {
+    <script src="~/Areas/Scripts/datatables-config.js"></script>
+    <script src="~/Scripts/deleteModal.js"></script>
+}

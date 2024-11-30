@@ -1,0 +1,100 @@
+﻿@model List<Models.EF.Product>
+@{
+    var category = (Models.EF.Category)ViewBag.CategoryShow;
+    ViewBag.Title = category.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Noidungmenu{
+    
+
+    <!-- Shop Product Start -->
+
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2">@category.Name.ToUpper()</span></h2>
+    </div>
+
+    <div class="row pb-3">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var sp in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4" onclick="window.location='@Url.Action("DetailProduct", new { @Id = sp.ProductId })'" style="cursor: pointer;">
+                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="@Url.Content("~/image/" + sp.Photo)" alt="@sp.Name" style="height: 280px; object-fit: cover;">
+                            @if (sp.Discount != 0 && sp.EndDate > DateTime.Now && sp.StartDate < DateTime.Now)
+                            {
+                                <span class="badge badge-danger position-absolute" style="top: 10px; right: 10px;">-@sp.Discount%</span>
+                            }
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <h6 class="text-truncate mb-3">@sp.Name</h6>
+                            <div class="d-flex justify-content-center">
+                                @if (sp.Discount != 0 && sp.EndDate > DateTime.Now && sp.StartDate < DateTime.Now)
+                                {
+                                    <h6 class="text-muted ml-2"><del>@sp.Price.GetValueOrDefault(0).ToString("N0")₫</del></h6>
+                                    <h6 class="text-danger ml-2">@((sp.Price - (sp.Price * sp.Discount * 0.01)).GetValueOrDefault(0).ToString("N0"))₫</h6>
+                                }
+                                else
+                                {
+                                    <h6>@sp.Price.GetValueOrDefault(0).ToString("N0")₫</h6>
+                                }
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between bg-light border">
+                            <a href="@Url.Action("DetailProduct", new { @Id = sp.ProductId })" class="btn btn-sm text-dark p-0" onclick="event.stopPropagation();">
+                                <i class="fas fa-eye text-primary mr-1"></i>Chi tiết
+                            </a>
+                            <a href="/them-gio-hang?ProductId=@sp.ProductId&quantity=1" class="btn btn-sm text-dark p-0" onclick="event.stopPropagation();">
+                                <i class="fas fa-shopping-cart text-primary mr-1"></i>Thêm vào giỏ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Phân trang -->
+            <div class="col-12 pb-1">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center mb-3">
+                        @if (ViewBag.Page > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="/danh-muc/@category.CategoryId?page=@ViewBag.Prev" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.Totalpage; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                                <a class="page-link" href="/danh-muc/@category.CategoryId?page=@i">@i</a>
+                            </li>
+                        }
+
+                        @if (ViewBag.Page < ViewBag.Totalpage)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="/danh-muc/@category.CategoryId?page=@ViewBag.Next" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info">Không có sản phẩm nào trong danh mục này</div>
+            </div>
+        }
+    </div>
+    <!-- Shop Product End -->
+}
+
+
+

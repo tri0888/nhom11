@@ -1,0 +1,86 @@
+﻿@model IEnumerable<WebsiteNoiThat.Models.OrderViewModel>
+@{
+    ViewBag.Title = "Thống kê báo cáo";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Thống kê báo cáo</h1>
+
+    <div class="card shadow mb-4">
+    <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Thống kê báo cáo</h6>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Viewmodel", "Report", FormMethod.Post))
+            {
+                <div class="form-row align-items-center mb-3">
+                    <div class="col-auto">
+                        <label>Từ</label>
+                        <input type="date" class="form-control" id="dfr" name="dfr">
+                    </div>
+                    <div class="col-auto">
+                        <label>Đến</label>
+                        <input type="date" class="form-control" id="dto" name="dto">
+                    </div>
+                    <div class="col-auto" style="margin-top: 32px;">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Xem
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered datatable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Mã HĐ</th>
+                                <th>Tên KH</th>
+                                <th>Khuyến mãi</th>
+                                <th>Địa chỉ</th>
+                                <th>SĐT</th>
+                                <th>Trạng thái</th>
+                                <th>Ngày cập nhật</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.OrderId</td>
+                                    <td>@item.ShipName</td>
+                                    <td>@item.Discount%</td>
+                                    <td>@item.ShipAddress</td>
+                                    <td>@item.ShipPhone</td>
+                                    <td>@item.StatusName</td>
+                                    <td>@String.Format("{0:dd/MM/yyyy}", item.UpdateDate)</td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a href="@Url.Action("Details", "Report", new { id = item.OrderId })" 
+                                               class="btn btn-primary btn-sm" title="Xem chi tiết">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="@Url.Action("PrintPreview", "Report", new { id = item.OrderId })" 
+                                               class="btn btn-warning btn-sm" title="In hóa đơn">
+                                                <i class="fas fa-print"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="6" style="text-align:right">Tổng tiền:</th>
+                                <th colspan="2" class="text-danger" style="font-weight:bold">
+                                    @String.Format("{0:N0}", ViewBag.total)₫
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+﻿@model List<Models.EF.News>
+
+@foreach (var news in Model)
+{
+    <div class="card border-0">
+        <div class="position-relative overflow-hidden">
+            <a href="/News/Show?NewsId=@news.NewsId">
+                <img class="img-fluid w-100" src="@Url.Content("~/image/" + news.Photo)" alt="@news.Title" style="height: 200px; object-fit: cover;">
+            </a>
+        </div>
+        <div class="card-body text-center p-4">
+            <h5 class="mb-3">@news.Title</h5>
+            <p class="text-muted mb-3">@news.Detail</p>
+        </div>
+    </div>
+}
+
+
+

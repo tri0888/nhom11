@@ -1,0 +1,134 @@
+﻿@model Models.EF.User
+
+@{
+    ViewBag.Title = "Xem thông tin tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-user-circle mr-2"></i>Thông tin tài khoản</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Tên đăng nhập</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" readonly value="@Model.Username">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Mật khẩu</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            <input type="password" class="form-control" readonly value="********">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Họ và tên</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            </div>
+                            <input type="text" class="form-control" readonly value="@Model.Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Email</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="text" class="form-control" readonly value="@Model.Email">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Địa chỉ</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                            </div>
+                            <input type="text" class="form-control" readonly value="@Model.Address">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Số điện thoại</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" readonly value="@Model.Phone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="statusSwitch" @(Model.Status ? "checked" : "") disabled>
+                    <label class="custom-control-label" for="statusSwitch">Trạng thái kích hoạt</label>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <a href="/RegisterAndLogin/EditCurentUser" class="btn btn-warning">
+                    <i class="fas fa-edit mr-1"></i> Sửa thông tin
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+    }
+    
+    .card-header {
+        border-radius: 10px 10px 0 0;
+    }
+    
+    .input-group-text {
+        background-color: #f8f9fa;
+    }
+    
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #fff;
+        opacity: 0.8;
+    }
+    
+    .btn-warning {
+        color: #fff;
+        background-color: #f6c23e;
+        border-color: #f6c23e;
+    }
+    
+    .btn-warning:hover {
+        background-color: #f4b619;
+        border-color: #f4b619;
+        color: #fff;
+    }
+</style>

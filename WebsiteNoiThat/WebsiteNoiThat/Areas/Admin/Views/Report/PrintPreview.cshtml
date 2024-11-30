@@ -1,0 +1,127 @@
+﻿@model Models.EF.Order
+@{
+    ViewBag.Title = "Xem trước khi in";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var currentDate = DateTime.Now;
+}
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div id="printArea">
+                <div class="text-center mb-4">
+                    <h2>HÓA ĐƠN BÁN HÀNG</h2>
+                    <p>Mã đơn hàng: @Model.OrderId</p>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Khách hàng:</strong> @Model.ShipName</p>
+                        <p><strong>Địa chỉ:</strong> @Model.ShipAddress</p>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <p><strong>Số điện thoại:</strong> @Model.ShipPhone</p>
+                        <p><strong>Ngày:</strong> @currentDate.ToString("dd/MM/yyyy")</p>
+                        <p><strong>Trạng thái:</strong> @ViewBag.status</p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                                var products = ViewBag.orderproducts as List<WebsiteNoiThat.Areas.Admin.Models.OrderProduct>;
+                            }
+                            @foreach (var item in products)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@item.ProductName</td>
+                                    <td class="text-center">@item.Quantity</td>
+                                    <td class="text-right">@String.Format("{0:N0}", item.Price)₫</td>
+                                    <td class="text-right">@String.Format("{0:N0}", item.Price * item.Quantity)₫</td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-right"><strong>Tổng cộng:</strong></td>
+                                <td class="text-right"><strong>@String.Format("{0:N0}", ViewBag.total)₫</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="row mt-4 signature-section">
+                    <div class="col-md-6 text-center">
+                        <p><strong>Người mua hàng</strong></p>
+                        <p>(Ký, ghi rõ họ tên)</p>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <p><strong>Người bán hàng</strong></p>
+                        <p>(Ký, ghi rõ họ tên)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button onclick="window.print()" class="btn btn-primary">
+                    <i class="fas fa-print"></i> In hóa đơn
+                </button>
+                <a href="@Url.Action("Viewmodel")" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style type="text/css">
+        .signature-section {
+            margin-top: 50px;
+            page-break-inside: avoid;
+        }
+
+        @@media print {
+            body * {
+                visibility: hidden;
+            }
+            #printArea, #printArea * {
+                visibility: visible;
+            }
+            #printArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .btn {
+                display: none;
+            }
+            .signature-section {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+            }
+            .signature-section > div {
+                width: 45%;
+            }
+            .col-md-6 {
+                width: 50%;
+                float: left;
+            }
+        }
+    </style>
+}

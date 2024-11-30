@@ -1,0 +1,139 @@
+﻿@model Models.EF.Card
+@{
+    ViewBag.Title = "Đăng ký thẻ tích điểm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0">
+                    <li class="breadcrumb-item"><a href="/" class="text-primary"><i class="fas fa-home"></i></a></li>
+                    <li class="breadcrumb-item active">ĐĂNG KÝ THẺ TÍCH ĐIỂM</li>
+                </ol>
+            </nav>
+
+            <div class="mb-3">
+                <a href="/RegisterAndLogin/Login" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left mr-1"></i> Bỏ qua đăng ký thẻ tích điểm
+                </a>
+            </div>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @Html.ValidationSummary(false, "", new { @class = "list-unstyled mb-0" })
+                </div>
+            }
+
+            @if (ViewBag.Success != null)
+            {
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle mr-2"></i>@ViewBag.Success
+                </div>
+            }
+
+            @if (Model == null)
+            {
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-circle mr-2"></i>Bạn đã có thẻ tích điểm hoặc chưa đăng nhập!
+                </div>
+            }
+            else
+            {
+                using (Html.BeginForm("Card", "RegisterAndLogin", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label class="font-weight-bold">Mã khách hàng</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                            </div>
+                            @Html.HiddenFor(m => m.UserId)
+                            <input type="text" class="form-control" value="@Model.UserId" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="font-weight-bold">Điểm tích lũy</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-star"></i></span>
+                            </div>
+                            <input type="text" class="form-control" value="0" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-0">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-credit-card mr-2"></i>Đăng ký thẻ
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .input-group-text {
+        background-color: #4e73df;
+        color: white;
+        border: 1px solid #4e73df;
+        width: 40px;
+        justify-content: center;
+    }
+    
+    .form-control {
+        border-radius: 0 4px 4px 0;
+    }
+    
+    .form-control:focus {
+        border-color: #bac8f3;
+        box-shadow: 0 0 0 0.2rem rgba(78,115,223,.25);
+    }
+    
+    .form-control[readonly] {
+        background-color: #f8f9fc;
+    }
+    
+    .btn-primary {
+        background-color: #4e73df;
+        border-color: #4e73df;
+        padding: 8px 20px;
+    }
+    
+    .btn-primary:hover {
+        background-color: #2e59d9;
+        border-color: #2e59d9;
+    }
+    
+    .btn-outline-secondary {
+        color: #858796;
+        border-color: #858796;
+    }
+    
+    .btn-outline-secondary:hover {
+        color: #fff;
+        background-color: #858796;
+        border-color: #858796;
+    }
+    
+    .alert {
+        border-radius: 4px;
+    }
+    
+    label {
+        color: #5a5c69;
+    }
+</style>
+

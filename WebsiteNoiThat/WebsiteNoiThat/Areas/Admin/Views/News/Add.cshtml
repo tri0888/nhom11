@@ -1,0 +1,103 @@
+﻿@model Models.EF.News
+
+@{
+    ViewBag.Title = "Thêm tin tức mới";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">@ViewBag.Title</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Thông tin tin tức</h6>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Add", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.NewsId, "Mã tin tức", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.NewsId, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessage("NewError", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Title, "Tiêu đề", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Detail, "Chi tiết", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", rows = "5", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Photo, "Hình ảnh", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        <div class="mb-2">
+                            <img id="preview" style="max-height: 150px; display: none" class="img-thumbnail" />
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file" name="file" required>
+                            <label class="custom-file-label" for="file">Chọn file...</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.DateUpdate, "Ngày cập nhật", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.DateUpdate, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.DateUpdate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-10 offset-sm-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save mr-2"></i>Thêm mới
+                        </button>
+                        <a href="@Url.Action("Show")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left mr-2"></i>Quay lại
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Hiển thị tên file và preview ảnh khi chọn
+        $('.custom-file-input').on('change', function () {
+            let input = this;
+            let fileName = $(input).val().split('\\').pop();
+            $(input).next('.custom-file-label').html(fileName);
+
+            // Hiển thị preview ảnh
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e) {
+                    var preview = $('#preview');
+                    preview.attr('src', e.target.result);
+                    preview.show();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+    </script>
+}

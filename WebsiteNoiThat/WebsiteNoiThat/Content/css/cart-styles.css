@@ -1,0 +1,88 @@
+/* Cart Styles */
+.cart-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.cart-title {
+    color: #ff4757;
+    font-weight: 600;
+    margin-bottom: 30px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.table {
+    background: white;
+}
+
+.table thead {
+    background: #ff4757;
+    color: white;
+}
+
+.table thead td {
+    font-weight: 600;
+    border: none;
+    padding: 15px;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+.product-image {
+    border-radius: 8px;
+    border: 1px solid #eee;
+    padding: 5px;
+}
+
+.quantity-input {
+    width: 70px;
+    text-align: center;
+    border: 2px solid #ff4757;
+    border-radius: 25px;
+    padding: 5px;
+}
+
+.price-text {
+    color: #ff4757;
+    font-weight: 600;
+}
+
+.discount-badge {
+    background: #2ed573;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+.cart-actions {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+}
+
+.btn-cart {
+    padding: 10px 25px;
+    border-radius: 25px;
+    margin: 0 10px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-cart:hover {
+    transform: translateY(-2px);
+}
+
+.empty-cart {
+    padding: 30px;
+    background: #fff3f3;
+    border-radius: 8px;
+    color: #ff4757;
+    font-weight: 500;
+} 

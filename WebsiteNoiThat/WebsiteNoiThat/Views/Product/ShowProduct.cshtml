@@ -1,0 +1,61 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model PagedList.PagedList<Models.EF.Product>
+
+<div class="text-center mb-4">
+    <h2 class="section-title px-5"><span class="px-2">TẤT CẢ SẢN PHẨM</span></h2>
+</div>
+<div class="row pb-3">
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+            <div class="card product-item border-0 mb-4" onclick="window.location='@Url.Action("DetailProduct", new { @Id = product.ProductId })'" style="cursor: pointer;">
+                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                    <img class="img-fluid w-100" src="@Url.Content("~/image/" + product.Photo)" alt="@product.Name" style="height: 280px; object-fit: cover;">
+                    @if (product.Discount > 0)
+                    {
+                        <span class="badge badge-danger position-absolute" style="top: 10px; right: 10px;">-@product.Discount%</span>
+                    }
+                </div>
+                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                    <h6 class="text-truncate mb-3">@product.Name</h6>
+                    <div class="d-flex justify-content-center">
+                        @if (product.Discount > 0)
+                        {
+                            <h6 class="text-muted ml-2"><del>@product.Price.GetValueOrDefault(0).ToString("N0")₫</del></h6>
+                            <h6 class="text-danger ml-2">@string.Format("{0:#,###.##}", (product.Price - (product.Price * product.Discount * 0.01)))₫</h6>
+                        }
+                        else
+                        {
+                            <h6>@product.Price.GetValueOrDefault(0).ToString("N0")₫</h6>
+                        }
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between bg-light border">
+                    <a href="@Url.Action("DetailProduct", new { @Id = product.ProductId })" class="btn btn-sm text-dark p-0" onclick="event.stopPropagation();">
+                        <i class="fas fa-eye text-primary mr-1"></i>Chi tiết
+                    </a>
+                    <a href="/them-gio-hang?productid=@product.ProductId&quantity=1" class="btn btn-sm text-dark p-0" onclick="event.stopPropagation();">
+                        <i class="fas fa-shopping-cart text-primary mr-1"></i>Thêm vào giỏ
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="col-12 pb-1">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mb-3">
+                @Html.PagedListPager(Model, page => Url.Action("ShowProduct", new { page }), 
+                    new PagedListRenderOptions {
+                        LiElementClasses = new string[] { "page-item" },
+                        LinkToFirstPageFormat = "««",
+                        LinkToPreviousPageFormat = "«",
+                        LinkToNextPageFormat = "»", 
+                        LinkToLastPageFormat = "»»"
+                    })
+            </ul>
+        </nav>
+    </div>
+</div>
+

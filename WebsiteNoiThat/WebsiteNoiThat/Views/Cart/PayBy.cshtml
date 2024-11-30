@@ -1,0 +1,232 @@
+﻿@model Models.EF.User
+@{
+    ViewBag.Title = "Thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container py-4">
+    @if (ViewBag.ListItem.Count > 0)
+    {
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent p-0 mb-4">
+                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="/Cart">Giỏ hàng</a></li>
+                <li class="breadcrumb-item active">Thanh toán</li>
+            </ol>
+        </nav>
+
+        <div class="row g-4">
+            <!-- Cột thông tin giỏ hàng -->
+            <div class="col-lg-7">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-gradient">
+                        <h5 class="text-white mb-0">
+                            <i class="fas fa-shopping-cart me-2"></i>Thông tin đơn hàng
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr class="fs-5">
+                                        <th>Mã SP</th>
+                                        <th>Tên SP</th>
+                                        <th>Số lượng</th>
+                                        <th>Đơn giá</th>
+                                        <th>Khuyến mãi</th>
+                                        <th>Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.ListItem)
+                                    {
+                                        <tr class="fs-5">
+                                            <td>@item.Product.ProductId</td>
+                                            <td>@item.Product.Name</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@(item.Product.Price?.ToString("N0") ?? "0")₫</td>
+                                            <td class="text-danger">@(item.Product.Discount > 0 ? $"{item.Product.Discount}%" : "0%")</td>
+                                            <td class="text-primary fw-bold">
+                                                @{
+                                                    var price = item.Product.Price ?? 0;
+                                                    var discount = item.Product.Discount > 0 ? item.Product.Discount : 0;
+                                                    var quantity = item.Quantity > 0 ? item.Quantity : 1;
+                                                    var total = (price - (price * discount * 0.01)) * quantity;
+                                                }
+                                                @total.ToString("#,###.##")₫
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <div class="text-end">
+                                <p class="fs-6 text-muted mb-1">Tổng tiền thanh toán:</p>
+                                <h4 class="text-primary fw-bold mb-0">@ViewBag.total.ToString("N0")₫</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột form thanh toán -->
+            <div class="col-lg-5">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-gradient">
+                        <h5 class="text-white mb-0">
+                            <i class="fas fa-user me-2"></i>Thông tin người nhận
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        @using (Html.BeginForm("PayBy", "Cart", FormMethod.Post, new { @class = "needs-validation", id = "paymentForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-user-circle me-2"></i>Họ và tên</label>
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = " " } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger small" })
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-phone me-2"></i>Số điện thoại</label>
+                                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", placeholder = " " } })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger small" })
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><i class="fas fa-envelope me-2"></i>Email</label>
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = " " } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger small" })
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label"><i class="fas fa-map-marker-alt me-2"></i>Địa chỉ nhận hàng</label>
+                                @Html.TextAreaFor(model => model.Address, new { @class = "form-control", style = "height: 100px", placeholder = " " })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger small" })
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100" onclick="return ConfirmOrder()">
+                                <i class="fas fa-check-circle me-2"></i>Xác nhận đặt hàng
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>Chưa có sản phẩm nào trong giỏ hàng
+            <a href="/" class="alert-link ms-2">Quay lại mua sắm</a>
+        </div>
+    }
+</div>
+
+<style>
+    .bg-gradient {
+        background: linear-gradient(45deg, #4e73df, #2e59d9) !important;
+    }
+
+    .form-floating > .form-control {
+        height: calc(3.5rem + 2px);
+        padding: 1rem 0.75rem;
+    }
+
+    .form-floating > .form-control:focus {
+        border-color: #bac8f3;
+        box-shadow: 0 0 0 0.2rem rgba(78,115,223,.25);
+    }
+
+    .form-floating > textarea.form-control {
+        height: 100px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: 1rem;
+        font-size: 14px;
+    }
+
+    .breadcrumb-item a {
+        color: #4e73df;
+        text-decoration: none;
+    }
+
+    .breadcrumb-item.active {
+        color: #858796;
+    }
+
+    .btn-primary {
+        background: #4e73df;
+        border: none;
+        padding: 12px;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+        background: #2e59d9;
+        transform: translateY(-1px);
+    }
+</style>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    
+    <script type="text/javascript">
+        function ConfirmOrder() {
+            var name = document.getElementById("Name").value;
+            var address = document.getElementById("Address").value;
+            var email = document.getElementById("Email").value;
+            var phone = document.getElementById("Phone").value;
+
+            Swal.fire({
+                title: 'Xác nhận đặt hàng?',
+                html: `
+                    <div class="text-start">
+                        <p>
+                            <i class="fas fa-user text-primary me-2"></i>
+                            <strong>Họ tên:</strong> 
+                            <span>${name}</span>
+                        </p>
+                        <p>
+                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                            <strong>Địa chỉ:</strong>
+                            <span>${address}</span>
+                        </p>
+                        <p>
+                            <i class="fas fa-envelope text-primary me-2"></i>
+                            <strong>Email:</strong>
+                            <span>${email}</span>
+                        </p>
+                        <p>
+                            <i class="fas fa-phone text-primary me-2"></i>
+                            <strong>Số điện thoại:</strong>
+                            <span>${phone}</span>
+                        </p>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận đặt hàng',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('paymentForm').submit();
+                }
+            });
+            
+            return false;
+        }
+    </script>
+}

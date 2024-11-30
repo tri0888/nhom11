@@ -1,0 +1,276 @@
+﻿@model List<WebsiteNoiThat.Models.CartItem>
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section jsFooter {
+    <script src="~/Scripts/cartcontroller.js"></script>
+}
+<div class="container py-4">
+    <div class="cart-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent p-0">
+                <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item active">Giỏ hàng</li>
+            </ol>
+        </nav>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-end">Đơn giá</th>
+                            <th class="text-end">Thành tiền</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="@Url.Content("~/image/" + item.Product.Photo)" class="product-image" />
+                                        <div class="ms-3">
+                                            <h6 class="mb-1">@item.Product.Name</h6>
+                                            <small class="text-muted">Mã SP: @item.Product.ProductId</small>
+                                            @if (item.Product.Discount > 0)
+                                            {
+                                                <div class="discount-badge mt-1">
+                                                    <i class="fas fa-tag"></i> Giảm @item.Product.Discount%
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="quantity-control">
+                                        <button type="button" class="btn-quantity" onclick="decreaseQuantity(@item.Product.ProductId)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" 
+                                               class="quantity-input txtQuantity" 
+                                               data-id="@item.Product.ProductId" 
+                                               value="@item.Quantity" 
+                                               onchange="updateQuantity(this)" />
+                                        <button type="button" class="btn-quantity" onclick="increaseQuantity(@item.Product.ProductId)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td class="text-end">
+                                    <div class="price-text">@item.Product.Price.GetValueOrDefault(0).ToString("N0")₫</div>
+                                </td>
+                                <td class="text-end">
+                                    <div class="total-price">
+                                        @{
+                                            var finalPrice = item.Product.Discount > 0 
+                                                ? ((item.Product.Price - (item.Product.Price * item.Product.Discount * 0.01)) * item.Quantity)
+                                                : (item.Product.Price * item.Quantity);
+                                        }
+                                        @string.Format("{0:#,###.##}", finalPrice)₫
+                                    </div>
+                                </td>
+                                <td class="text-end">
+                                    <button class="btn-delete" data-id="@item.Product.ProductId">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="cart-footer">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <button id="btnContinue" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left me-2"></i>Tiếp tục mua hàng
+                        </button>
+                        <button id="btnDeleteAll" class="btn btn-outline-danger ms-2">
+                            <i class="fas fa-trash me-2"></i>Xoá giỏ hàng
+                        </button>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        @using (Html.BeginForm("CheckoutProcess", "Cart", FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-check me-2"></i>Gửi đơn hàng
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart fa-2x"></i>
+                <h5>Giỏ hàng trống</h5>
+                <p>Chưa có sản phẩm nào trong giỏ hàng</p>
+                <a href="/" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-arrow-left me-1"></i>Quay lại mua sắm
+                </a>
+            </div>
+        }
+    </div>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger mt-3">
+            <i class="fas fa-exclamation-circle me-2"></i>@Html.Raw(TempData["ErrorMessage"])
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        .cart-container {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            padding: 25px;
+        }
+
+        .table thead {
+            background: #4e73df;
+        }
+
+        .table thead th {
+            color: white;
+            font-weight: 500;
+            border: none;
+            padding: 15px;
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .quantity-control {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 5px 10px;
+            color: #5a5c69;
+            margin: 0 5px;
+        }
+
+        .quantity-input:focus {
+            outline: none;
+            border-color: #4e73df;
+            box-shadow: 0 0 0 0.2rem rgba(78,115,223,.25);
+        }
+
+        .price-text {
+            color: #4e73df;
+            font-weight: 500;
+        }
+
+        .total-price {
+            font-weight: 600;
+            color: #2e59d9;
+        }
+
+        .discount-badge {
+            display: inline-block;
+            background: #1cc88a;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .btn-delete {
+            border: none;
+            background: none;
+            color: #e74a3b;
+            padding: 5px;
+        }
+
+        .cart-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e3e6f0;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            background: #f8f9fc;
+            border-radius: 10px;
+        }
+
+        .empty-cart i.fa-shopping-cart {
+            color: #b7b9cc;
+            margin-bottom: 15px;
+        }
+
+        .empty-cart h5 {
+            color: #5a5c69;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .empty-cart p {
+            color: #858796;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .empty-cart .btn {
+            padding: 6px 15px;
+            font-size: 13px;
+            border-radius: 20px;
+        }
+
+        .empty-cart .btn i {
+            font-size: 12px;
+        }
+
+        .btn-quantity {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #e0e0e0;
+            background: #f8f9fc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #5a5c69;
+            transition: all 0.2s;
+        }
+
+        .btn-quantity:hover {
+            background: #4e73df;
+            color: white;
+            border-color: #4e73df;
+        }
+
+        .btn-quantity i {
+            font-size: 12px;
+        }
+
+        .btn-quantity:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+}

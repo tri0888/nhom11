@@ -1,0 +1,51 @@
+﻿@model Models.EF.Role
+
+@{
+    ViewBag.Title = "Sửa chức năng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Sửa chức năng</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Thông tin chức năng</h6>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RoleId, "Mã quyền", new { @class = "control-label" })
+                    @Html.HiddenFor(model => model.RoleId)
+                    <input type="text" value="@Model.RoleId" class="form-control" disabled />
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, "Tên quyền", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-10 offset-sm-2">
+                        <button type="submit" class="btn btn-primary mr-2">
+                            <i class="fas fa-save mr-2"></i>Lưu
+                        </button>
+                        <a href="@Url.Action("Index", "Roles")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left mr-2"></i>Quay lại
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

@@ -1,0 +1,6 @@
+﻿@model List<Models.EF.Category>
+
+@foreach (var item in Model.Where(n => n.ParId == 0))
+{
+    <a href="/danh-muc/@item.CategoryId" class="nav-item nav-link">@item.Name</a>
+}

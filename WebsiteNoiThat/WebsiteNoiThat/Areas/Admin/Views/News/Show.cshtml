@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Models.EF.News>
+
+@{
+    ViewBag.Title = "Quản lý tin tức";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Quản lý tin tức</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách tin tức</h6>
+            <a href="@Url.Action("Add", "News")" class="btn btn-primary">
+                <i class="fas fa-plus mr-2"></i>Thêm tin tức
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                @using (Html.BeginForm("Delete", "News", FormMethod.Post))
+                {
+                    <table class="table table-bordered table-hover datatable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Mã tin tức</th>
+                                <th>Tiêu đề</th>
+                                <th>Chi tiết</th>
+                                <th class="text-center">Hình ảnh</th>
+                                <th>Ngày cập nhật</th>
+                                <th class="text-center">Hành động</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.NewsId</td>
+                                    <td>@item.Title</td>
+                                    <td>@item.Detail</td>
+                                    <td class="text-center">
+                                        <img class="img-thumbnail" style="max-height:80px" 
+                                             src="@Url.Content("~/image/" + item.Photo)" 
+                                             alt="@item.Title"/>
+                                    </td>
+                                    <td>@(item.DateUpdate != null ? ((DateTime)item.DateUpdate).ToString("dd/MM/yyyy") : "")</td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a href="@Url.Action("Edit", "News", new { area = "Admin", NewsId = item.NewsId })" 
+                                               class="btn btn-warning btn-sm" title="Sửa">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="@Url.Action("Delete", "News")" 
+                                               class="btn btn-danger btn-sm btn-delete" 
+                                               data-id="@item.NewsId"
+                                               title="Xóa">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+@Html.Partial("_DeleteModal")
+
+@section scripts {
+    <script src="~/Scripts/deleteModal.js"></script>
+    <script src="~/Areas/Scripts/datatables-config.js"></script>
+}
+
+

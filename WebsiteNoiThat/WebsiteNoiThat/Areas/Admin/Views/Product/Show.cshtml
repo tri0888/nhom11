@@ -1,0 +1,80 @@
+﻿@model IEnumerable<WebsiteNoiThat.Models.ProductViewModel>
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Quản lý sản phẩm</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm</h6>
+            <a href="@Url.Action("Add", "Product")" class="btn btn-primary">
+                <i class="fas fa-plus mr-2"></i>Thêm sản phẩm
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover datatable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Mã SP</th>
+                            <th>Tên SP</th>
+                            <th class="text-center">Hình ảnh</th>
+                            <th>Mô tả</th>
+                            <th>Danh mục SP</th>
+                            <th>Nhà cung cấp</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-center">Khuyến mãi</th>
+                            <th class="text-right">Giá</th>
+                            <th class="text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Where(p => !p.IsHidden))
+                        {
+                            <tr>
+                                <td>@item.ProductId</td>
+                                <td>@item.Name</td>
+                                <td class="text-center">
+                                    <img class="img-thumbnail" style="max-height:80px" 
+                                         src="@Url.Content("~/image/" + item.Photo)" 
+                                         alt="@item.Name">
+                                </td>
+                                <td>@item.Description</td>
+                                <td>@item.CateName</td>
+                                <td>@item.ProviderName</td>
+                                <td class="text-center">@item.Quantity</td>
+                                <td class="text-center">@item.Discount%</td>
+                                <td class="text-right">@item.Price.GetValueOrDefault(0).ToString("N0")₫</td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Edit", "Product", new { ProductId = item.ProductId })" 
+                                           class="btn btn-warning btn-sm" title="Sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", "Product")" 
+                                           class="btn btn-danger btn-sm btn-delete" 
+                                           data-id="@item.ProductId"
+                                           title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+@Html.Partial("_DeleteModal")
+
+@section Scripts {
+    <script src="~/Scripts/deleteModal.js"></script>
+    <script src="~/Areas/Scripts/datatables-config.js"></script>
+}

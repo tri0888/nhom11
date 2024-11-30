@@ -1,0 +1,118 @@
+﻿@model Models.EF.User
+@using WebsiteNoiThat.Models
+@{
+    ViewBag.Title = "Sửa nhân viên";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var session = (UserLogin)Session[WebsiteNoiThat.Common.Commoncontent.user_sesion_admin];
+    var canToggleStatus = session.GroupId == "ADMIN" || (session.GroupId == "MOD" && Model.GroupId != "MOD");
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Sửa thông tin nhân viên</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Thông tin nhân viên</h6>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Edit", "User", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.UserId)
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Name, "Họ tên", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Phone, "Số điện thoại", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Address, "Địa chỉ", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Email, "Email", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @type = "email", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Username, "Tên đăng nhập", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Password, "Mật khẩu", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Nhập mật khẩu mới nếu muốn thay đổi" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        <small class="form-text text-muted">Để trống nếu không muốn thay đổi mật khẩu</small>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.GroupId, "Nhóm quyền", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(model => model.GroupId, ViewBag.ListGroups as SelectList, "-- Chọn nhóm quyền --", new { @class = "form-control", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Status, "Trạng thái", new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        <div class="custom-control custom-switch">
+                            @if (canToggleStatus)
+                            {
+                                @Html.CheckBoxFor(model => model.Status, new { @class = "custom-control-input", @id = "statusSwitch" })
+                                <label class="custom-control-label" for="statusSwitch">Hoạt động</label>
+                            }
+                            else
+                            {
+                                @Html.CheckBoxFor(model => model.Status, new { @class = "custom-control-input", @id = "statusSwitch", @disabled = "disabled" })
+                                <label class="custom-control-label" for="statusSwitch">Hoạt động</label>
+                                <small class="form-text text-muted">Bạn không có quyền thay đổi trạng thái của tài khoản này</small>
+                            }
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-10 offset-sm-2">
+                        <button type="submit" class="btn btn-primary mr-2">
+                            <i class="fas fa-save mr-2"></i>Lưu thay đổi
+                        </button>
+                        <a href="@Url.Action("Show")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left mr-2"></i>Quay lại
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
