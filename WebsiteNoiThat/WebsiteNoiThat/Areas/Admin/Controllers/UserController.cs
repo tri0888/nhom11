@@ -15,7 +15,6 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
         private readonly DBThoiTrang db = new DBThoiTrang();
 
         [HasCredential(RoleId = "VIEW_USER")]
-        [HasCredential(RoleId = "ADMIN")]
         public ActionResult Show()
         {
             try 
@@ -26,11 +25,9 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
                     return RedirectToAction("Index", "Login");
                 }
 
-                // Kiểm tra xem người dùng có phải là ADMIN không
-                var userGroup = db.UserGroups.Find(session.GroupId);
-                if (userGroup == null || userGroup.Name != "ADMIN")
+                // Chỉ cho phép ADMIN truy cập
+                if (session.GroupId != "ADMIN")
                 {
-                    // Nếu không phải ADMIN, chuyển đến trang 401
                     return View("~/Areas/Admin/Views/Shared/401.cshtml");
                 }
 

@@ -24,7 +24,6 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
             var session = (UserLogin)Session[Commoncontent.user_sesion_admin];
             ViewBag.username = session.Username;
 
-            // MOD có thể xem nhưng không thêm/sửa/xóa
             var credentials = db.Credentials.ToList();
             return View(credentials);
         }

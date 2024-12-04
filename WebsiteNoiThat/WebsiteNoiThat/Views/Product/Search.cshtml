@@ -5,60 +5,75 @@
 }
 
 @section Noidungmenu{    
-    <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Kết quả tìm kiếm: @ViewBag.Keyword</span></h2>
+    <div class="text-center mb-5">
+        <h2 class="position-relative d-inline-block">
+            <span class="position-relative px-4 py-3" style="background: rgba(255,255,255,0.95); 
+                                                           border-radius: 15px;
+                                                           box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                🔍 Kết quả tìm kiếm: @ViewBag.Keyword
+            </span>
+        </h2>
     </div>
-    <div class="row pb-3">
+
+    <div class="row g-4 pb-5">
         @if (Model != null && Model.Any())
         {
             foreach (var sp in Model)
             {
-                <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4" onclick="window.location='@Url.Action("DetailProduct", new { @Id = sp.ProductId })'" style="cursor: pointer;">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="@Url.Content("~/image/" + sp.Photo)" alt="@sp.Name" style="height: 280px; object-fit: cover;">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 product-card border-0 shadow-sm transition-hover" 
+                         onclick="window.location='@Url.Action("DetailProduct", new { @Id = sp.ProductId })'" 
+                         style="cursor: pointer; transition: all 0.3s ease;">
+                        <div class="position-relative">
+                            <img class="card-img-top" src="@Url.Content("~/image/" + sp.Photo)" 
+                                 alt="@sp.Name" style="height: 300px; object-fit: cover;">
                             @if (sp.Discount != 0 && sp.EndDate > DateTime.Now && sp.StartDate < DateTime.Now)
                             {
-                                <span class="badge badge-danger position-absolute" style="top: 10px; right: 10px;">-@sp.Discount%</span>
+                                <div class="position-absolute top-0 end-0 m-3">
+                                    <span class="badge bg-danger rounded-pill fs-6 px-3 py-2">-@sp.Discount%</span>
+                                </div>
                             }
                         </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">@sp.Name</h6>
-                            <div class="d-flex justify-content-center">
+                        <div class="card-body text-center p-4">
+                            <h5 class="card-title text-truncate mb-3">@sp.Name</h5>
+                            <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
                                 @if (sp.Discount != 0 && sp.EndDate > DateTime.Now && sp.StartDate < DateTime.Now)
                                 {
-                                    <h6 class="text-muted ml-2"><del>@sp.Price.GetValueOrDefault(0).ToString("N0")₫</del></h6>
-                                    <h6 class="text-danger ml-2">@((sp.Price - (sp.Price * sp.Discount * 0.01)).GetValueOrDefault(0).ToString("N0"))₫</h6>
+                                    <span class="text-decoration-line-through text-muted">@sp.Price.GetValueOrDefault(0).ToString("N0")₫</span>
+                                    <span class="fs-5 text-danger fw-bold">@((sp.Price - (sp.Price * sp.Discount * 0.01)).GetValueOrDefault(0).ToString("N0"))₫</span>
                                 }
                                 else
                                 {
-                                    <h6>@sp.Price.GetValueOrDefault(0).ToString("N0")₫</h6>
+                                    <span class="fs-5 fw-bold">@sp.Price.GetValueOrDefault(0).ToString("N0")₫</span>
                                 }
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="@Url.Action("DetailProduct", new { @Id = sp.ProductId })" class="btn btn-sm text-dark p-0" onclick="event.stopPropagation();">
-                                <i class="fas fa-eye text-primary mr-1"></i>Chi tiết
-                            </a>
-                            <a href="/them-gio-hang?ProductId=@sp.ProductId&quantity=1" class="btn btn-sm text-dark p-0" onclick="event.stopPropagation();">
-                                <i class="fas fa-shopping-cart text-primary mr-1"></i>Thêm vào giỏ
-                            </a>
+                        <div class="card-footer bg-transparent border-0 p-4">
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("DetailProduct", new { @Id = sp.ProductId })" 
+                                    class="btn btn-outline-primary btn-sm" onclick="event.stopPropagation();">
+                                        <i class="fas fa-eye me-1"></i>Chi tiết
+                                </a>
+                                <a href="/them-gio-hang?productid=@sp.ProductId&quantity=1" 
+                                    class="btn btn-primary btn-sm" onclick="event.stopPropagation();">
+                                        <i class="fas fa-shopping-cart me-1"></i>Thêm vào giỏ
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             }
 
-            <!-- Phân trang -->
             if (ViewBag.Totalpage > 1)
             {
-                <div class="col-12 pb-1">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center mb-3">
+                <div class="col-12">
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
                             @if (ViewBag.Page > 1)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" href="/tim-kiem?keyword=@ViewBag.Keyword&page=@ViewBag.Prev" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
+                                    <a class="page-link" href="/tim-kiem?keyword=@ViewBag.Keyword&page=@ViewBag.Prev">
+                                        <i class="fas fa-chevron-left"></i>
                                     </a>
                                 </li>
                             }
@@ -73,8 +88,8 @@
                             @if (ViewBag.Page < ViewBag.Totalpage)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" href="/tim-kiem?keyword=@ViewBag.Keyword&page=@ViewBag.Next" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
+                                    <a class="page-link" href="/tim-kiem?keyword=@ViewBag.Keyword&page=@ViewBag.Next">
+                                        <i class="fas fa-chevron-right"></i>
                                     </a>
                                 </li>
                             }
@@ -86,8 +101,24 @@
         else
         {
             <div class="col-12">
-                <div class="alert alert-info">Không tìm thấy sản phẩm nào phù hợp</div>
+                <div class="alert alert-info text-center py-4">
+                    <i class="fas fa-search-minus fa-3x mb-3"></i>
+                    <h4>Không tìm thấy sản phẩm nào phù hợp</h4>
+                </div>
             </div>
         }     
     </div>           
 }
+
+<style>
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.transition-hover {
+    transition: all 0.3s ease;
+}
+
+
+</style>

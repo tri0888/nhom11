@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="utf-8">
@@ -7,17 +7,19 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
-    <link href="~/Content/EShopper/img/favicon.ico" rel="icon">
+    <link href="~/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
     <link href="~/Content/EShopper/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/Content/css/layout.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="~/Content/EShopper/css/style.css" rel="stylesheet">
@@ -29,226 +31,395 @@
     <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #d19b98;
+            --secondary: #e8d1cf;
+            --light: #f5eae9;
+            --dark: #4A4A4A;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: #c08885;
+            border-color: #c08885;
+        }
+
+        .text-primary {
+            color: var(--primary) !important;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-link {
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 25px 15px;
+            color: var(--dark);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .search-form .input-group {
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .search-form input {
+            border: none;
+            padding: 15px 25px;
+        }
+
+        .search-form button {
+            background: var(--primary);
+            padding: 15px 25px;
+        }
+
+        .category-menu {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .news-section {
+            background-color: white;
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .back-to-top:hover {
+            background: #8B6B4A;
+            transform: translateY(-3px);
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding-top: 80px;
+        }
+
+        footer a {
+            color: #DDD !important;
+            transition: all 0.3s;
+        }
+
+        footer a:hover {
+            color: var(--primary) !important;
+            text-decoration: none;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            color: white !important;
+        }
+
+        .badge {
+            background-color: var(--primary) !important;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+    </style>
 
     @RenderSection("Styles", required: false)
 </head>
 
 <body>
     <!-- Topbar Start -->
-    <div class="container-fluid">
-        <div class="row bg-secondary py-2 px-xl-5">
-            <div class="col-lg-6 d-none d-lg-block">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-dark" href="">Hỗ trợ</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Liên hệ</a>
-                </div>
-            </div>
-            <div class="col-lg-6 text-center text-lg-right">
-                <div class="d-inline-flex align-items-center justify-content-end w-100">
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row align-items-center py-3 px-xl-5">
-            <div class="col-lg-3 d-none d-lg-block">
-                <a href="/" class="text-decoration-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">T</span>HOITRANG</h1>
-                </a>
-            </div>
-            <div class="col-lg-6 col-6 text-left">
-                <form action="/tim-kiem" method="get">
-                    <div class="input-group">
-                        <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm sản phẩm">
-                        <div class="input-group-append">
-                            <button type="submit" class="input-group-text bg-transparent text-primary border-0">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
+    <div class="container-fluid bg-white py-2 border-bottom">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-auto d-none d-lg-block">
+                    <div class="d-flex align-items-center">
+                        <a class="me-4" href=""><i class="fas fa-headset me-2"></i>Hỗ trợ 24/7</a>
+                        <a class="" href=""><i class="fas fa-envelope me-2"></i>contact@thoitrang.com</a>
                     </div>
-                </form>
-            </div>
-            <div class="col-lg-3 col-6 text-right">
-                <div class="d-inline-flex align-items-center">
-                    @{ Html.RenderAction("ViewLogin", "RegisterAndLogin");}
-                    <a href="/gio-hang" class="btn border ml-2">
-                        <i class="fas fa-shopping-cart text-primary"></i>
-                        <span class="badge">@{ Html.RenderAction("HeaderCart", "Home");}</span>
-                    </a>
+                </div>
+                <div class="col-auto">
+                    <div class="social-links">
+                        <a href=""><i class="fab fa-facebook-f"></i></a>
+                        <a href=""><i class="fab fa-instagram"></i></a>
+                        <a href=""><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Topbar End -->
 
-
-    <!-- Navbar Start -->
-    <div class="container-fluid mb-5">
-        <div class="row border-top px-xl-5">
-            <div class="col-lg-3 d-none d-lg-block">
-                <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" 
-                   data-toggle="collapse" 
-                   href="#navbar-vertical" 
-                   style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                    <h6 class="m-0">DANH MỤC</h6>
-                    <i class="fa fa-angle-down text-dark"></i>
-                </a>
-                <nav class="@(ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "collapse show" : "collapse") navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" 
-                     id="navbar-vertical">
-                    <div class="navbar-nav w-100 overflow-hidden" style="height: auto; max-height: 250px">
-                        @{ Html.RenderAction("Menu", "CategoryProduct");}
-                    </div>
-                </nav>
-            </div>
-            <div class="col-lg-9">
-                <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
-                    <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">T</span>HOITRANG</h1>
+    <!-- Header Start -->
+    <header class="container-fluid bg-white py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-3 text-center text-lg-start mb-3 mb-lg-0">
+                    <a href="/" class="text-decoration-none">
+                        <h1 class="display-4 m-0"><span class="text-primary">THỜI</span>TRANG</h1>
                     </a>
-                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <div class="navbar-nav mr-auto py-0">
-                            <a href="/Home/Index" class="nav-item nav-link">Trang chủ</a>
-                            <a href="/Product/ShowProduct" class="nav-item nav-link">Sản phẩm</a>
-                            <a href="/Product/Hots" class="nav-item nav-link">Hot nhất</a>
-                            <a href="/Product/Sales" class="nav-item nav-link">Khuyến mãi</a>
-                            <a href="/Contact/Contacts" class="nav-item nav-link">Liên hệ</a>
+                </div>
+                <div class="col-lg-6">
+                    <form action="/tim-kiem" method="get" class="search-form">
+                        <div class="input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm sản phẩm...">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-search"></i>
+                            </button>
                         </div>
+                    </form>
+                </div>
+                <div class="col-lg-3">
+                    <div class="d-flex justify-content-end align-items-center position-relative" style="z-index: 1100;">
+                        @{ Html.RenderAction("ViewLogin", "RegisterAndLogin");}
+                        <a href="/gio-hang" class="btn btn-outline-primary ms-3 position-relative">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                                @{ Html.RenderAction("HeaderCart", "Home");}
+                            </span>
+                        </a>
                     </div>
-                </nav>
-                @RenderSection("Slider", required: false)
+                </div>
             </div>
         </div>
-    </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg sticky-top" style="z-index: 1000;">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="/Home/Index" class="nav-item nav-link">Trang chủ</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Danh mục</a>
+                        <div class="dropdown-menu">
+                            @{ Html.RenderAction("Menu", "CategoryProduct");}
+                        </div>
+                    </div>
+                    <a href="/Product/ShowProduct" class="nav-item nav-link">Sản phẩm</a>
+                    <a href="/Product/Hots" class="nav-item nav-link">Hot nhất</a>
+                    <a href="/Product/Sales" class="nav-item nav-link">Khuyến mãi</a>
+                    <a href="/Contact/Contacts" class="nav-item nav-link">Liên hệ</a>
+                </div>
+            </div>
+        </div>
+    </nav>
     <!-- Navbar End -->
 
+    @RenderSection("Slider", required: false)
+
     <!-- Page Content -->
-    <div class="container-fluid pt-5">
-        <div class="row px-xl-5">
-            <!-- Shop Sidebar Start -->
-            @if (ViewContext.RouteData.Values["controller"].ToString() == "Product")
-            {
-                <div class="col-lg-3 col-md-12">
-                    <div class="border-bottom mb-4 pb-4">
-                        <h5 class="font-weight-semi-bold mb-4">Lọc Theo Giá</h5>
-                        <form action="/Product/SearchFocus" method="get">
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" id="price-0" name="priceRange" value="0">
-                                <label class="custom-control-label" for="price-0">Dưới 5 Triệu</label>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row">
+                @if (ViewContext.RouteData.Values["controller"].ToString() == "Product")
+                {
+                    <div class="col-lg-3 mb-4">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold mb-4">Lọc Theo Giá</h5>
+                                <form action="/Product/SearchFocus" method="get">
+                                    <div class="form-check mb-3">
+                                        <input type="radio" class="form-check-input" id="price-0" name="priceRange" value="0">
+                                        <label class="form-check-label" for="price-0">Dưới 5 Triệu</label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input type="radio" class="form-check-input" id="price-1" name="priceRange" value="1">
+                                        <label class="form-check-label" for="price-1">5 Triệu - 10 Triệu</label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input type="radio" class="form-check-input" id="price-2" name="priceRange" value="2">
+                                        <label class="form-check-label" for="price-2">10 Triệu - 20 Triệu</label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input type="radio" class="form-check-input" id="price-3" name="priceRange" value="3">
+                                        <label class="form-check-label" for="price-3">20 Triệu - 50 Triệu</label>
+                                    </div>
+                                    <div class="form-check mb-4">
+                                        <input type="radio" class="form-check-input" id="price-4" name="priceRange" value="4">
+                                        <label class="form-check-label" for="price-4">Trên 50 Triệu</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Lọc</button>
+                                </form>
                             </div>
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" id="price-1" name="priceRange" value="1">
-                                <label class="custom-control-label" for="price-1">5 Triệu - 10 Triệu</label>
-                            </div>
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" id="price-2" name="priceRange" value="2">
-                                <label class="custom-control-label" for="price-2">10 Triệu - 20 Triệu</label>
-                            </div>
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" id="price-3" name="priceRange" value="3">
-                                <label class="custom-control-label" for="price-3">20 Triệu - 50 Triệu</label>
-                            </div>
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" id="price-4" name="priceRange" value="4">
-                                <label class="custom-control-label" for="price-4">Trên 50 Triệu</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Lọc</button>
-                        </form>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-9 col-md-12">
-                    @RenderSection("Noidungbenphai", required: false)
-                    @RenderSection("Noidungmenu", required: false)
-                    @RenderBody()
-                </div>
-            }
-            else
-            {
-                <div class="col-12">
-                    @RenderSection("Noidungbenphai", required: false)
-                    @RenderSection("Noidungmenu", required: false)
-                    @RenderBody()
-                </div>
-            }
+                    <div class="col-lg-9">
+                        @RenderSection("Noidungbenphai", required: false)
+                        @RenderSection("Noidungmenu", required: false)
+                        @RenderBody()
+                    </div>
+                }
+                else
+                {
+                    <div class="col-12">
+                        @RenderSection("Noidungbenphai", required: false)
+                        @RenderSection("Noidungmenu", required: false)
+                        @RenderBody()
+                    </div>
+                }
+            </div>
         </div>
     </div>
     <!-- Page Content End -->
 
     <!-- News Start -->
-    <div class="container-fluid pt-5">
-        <div class="text-center mb-4">
-            <h2 class="section-title px-5"><span class="px-2">TIN TỨC NỔI BẬT</span></h2>
-        </div>
-        <div class="row px-xl-5 pb-3">
-            <div class="col-12">
-                <div class="owl-carousel news-carousel">
-                    @{ Html.RenderAction("NewsHot", "News"); }
-                </div>
+    <section class="news-section">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">TIN TỨC NỔI BẬT</h2>
+                <p class="text-muted">Cập nhật những tin tức mới nhất về thời trang</p>
+            </div>
+            <div class="owl-carousel news-carousel">
+                @{ Html.RenderAction("NewsHot", "News"); }
             </div>
         </div>
-    </div>
+    </section>
     <!-- News End -->
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
-        <div class="row px-xl-5 pt-5">
-            <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
-                <a href="" class="text-decoration-none">
-                    <h1 class="mb-4 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border border-white px-3 mr-1">T</span>HOITRANG</h1>
-                </a>
-                <p>Studio Thời Trang - Đẹp - Sang Trọng - Tinh tế</p>
-                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Đường ABC, Quận XYZ, TP.HCM</p>
-                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@thoitrang.vn</p>
-                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>0968 012 687</p>
-            </div>
-            <div class="col-lg-8 col-md-12">
-                <div class="row">
-                    <div class="col-md-4 mb-5">
-                        <h5 class="font-weight-bold text-dark mb-4">Về chúng tôi</h5>
-                        <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href=""><i class="fa fa-angle-right mr-2"></i>Giới thiệu</a>
-                            <a class="text-dark mb-2" href=""><i class="fa fa-angle-right mr-2"></i>Chính sách & Quy định</a>
+    <footer>
+        <div class="container pb-5">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <h1 class="text-white mb-4">THỜI TRANG</h1>
+                    <p class="mb-4">Studio Thời Trang - Đẹp - Sang Trọng - Tinh tế</p>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary me-3"></i>123 Đường ABC, Quận XYZ, TP.HCM</p>
+                    <p class="mb-2"><i class="fa fa-envelope text-primary me-3"></i>info@thoitrang.vn</p>
+                    <p class="mb-0"><i class="fa fa-phone-alt text-primary me-3"></i>0968 012 687</p>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row g-5">
+                        <div class="col-md-4">
+                            <h5 class="text-white mb-4">Về chúng tôi</h5>
+                            <div class="d-flex flex-column">
+                                <a class="mb-2" href=""><i class="fa fa-angle-right me-2"></i>Giới thiệu</a>
+                                <a class="mb-2" href=""><i class="fa fa-angle-right me-2"></i>Chính sách & Quy định</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <h5 class="font-weight-bold text-dark mb-4">Hỗ trợ</h5>
-                        <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href=""><i class="fa fa-angle-right mr-2"></i>Chính sách vận chuyển</a>
-                            <a class="text-dark mb-2" href=""><i class="fa fa-angle-right mr-2"></i>Chính sách thanh toán</a>
-                            <a class="text-dark" href=""><i class="fa fa-angle-right mr-2"></i>Bản đồ</a>
+                        <div class="col-md-4">
+                            <h5 class="text-white mb-4">Hỗ trợ</h5>
+                            <div class="d-flex flex-column">
+                                <a class="mb-2" href=""><i class="fa fa-angle-right me-2"></i>Chính sách vận chuyển</a>
+                                <a class="mb-2" href=""><i class="fa fa-angle-right me-2"></i>Chính sách thanh toán</a>
+                                <a class="" href=""><i class="fa fa-angle-right me-2"></i>Bản đồ</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <h5 class="font-weight-bold text-dark mb-4">Kết nối</h5>
-                        <div class="d-flex">
-                            <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-primary btn-square mr-2" href="#"><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-primary btn-square" href="#"><i class="fab fa-youtube"></i></a>
+                        <div class="col-md-4">
+                            <h5 class="text-white mb-4">Kết nối</h5>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-youtube"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; 2023 <a href="#">Thời Trang Cao Cấp</a>. All Rights Reserved.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!-- Footer End -->
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    <a href="#" class="btn back-to-top"><i class="fa fa-angle-up"></i></a>
 
     <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/Content/EShopper/lib/easing/easing.min.js"></script>
     <script src="~/Content/EShopper/lib/owlcarousel/owl.carousel.min.js"></script>
 
@@ -262,7 +433,52 @@
     <!-- Template Javascript -->
     <script src="~/Content/EShopper/js/main.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Owl Carousel Initialization -->
+    <script>
+        $(document).ready(function(){
+            // Khởi tạo slider chính
+            $(".owl-carousel").owlCarousel({
+                autoplay: true,
+                smartSpeed: 1500,
+                items: 1,
+                dots: true,
+                loop: true,
+                nav: true,
+                navText: [
+                    '<i class="fa fa-angle-left"></i>',
+                    '<i class="fa fa-angle-right"></i>'
+                ]
+            });
+
+            // Khởi tạo news carousel
+            $(".news-carousel").owlCarousel({
+                autoplay: true,
+                smartSpeed: 1000,
+                margin: 30,
+                dots: false,
+                loop: true,
+                nav: true,
+                navText: [
+                    '<i class="fa fa-angle-left"></i>',
+                    '<i class="fa fa-angle-right"></i>'
+                ],
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    576: {
+                        items: 1
+                    },
+                    768: {
+                        items: 2
+                    },
+                    992: {
+                        items: 3
+                    }
+                }
+            });
+        });
+    </script>
 
     @RenderSection("Scripts", required: false)
     @RenderSection("jsFooter", required: false)

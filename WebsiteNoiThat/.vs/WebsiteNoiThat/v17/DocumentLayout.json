@@ -1,28 +1,39 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\website-ban-noi-that-main\\WebsiteNoiThat\\",
+  "WorkspaceRootPath": "D:\\source\\nhom11\\WebsiteNoiThat\\",
   "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|d:\\website-ban-noi-that-main\\websitenoithat\\websitenoithat\\views\\news\\newshot.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|solutionrelative:websitenoithat\\views\\news\\newshot.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|D:\\website-ban-noi-that-main\\WebsiteNoiThat\\websitenoithat\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|solutionrelative:websitenoithat\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B5D3578A-69F6-4A29-AAC3-32EE62976DDF}|Models\\Models.csproj|D:\\website-ban-noi-that-main\\WebsiteNoiThat\\models\\ef\\dbthoitrang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B5D3578A-69F6-4A29-AAC3-32EE62976DDF}|Models\\Models.csproj|solutionrelative:models\\ef\\dbthoitrang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|D:\\website-ban-noi-that-main\\WebsiteNoiThat\\websitenoithat\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|solutionrelative:websitenoithat\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\trand\\OneDrive\\Documents\\SQL Server Management Studio\\DBThoiTrang-Data.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|D:\\source\\nhom11\\WebsiteNoiThat\\websitenoithat\\views\\product\\categoryshow.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|solutionrelative:websitenoithat\\views\\product\\categoryshow.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|D:\\source\\nhom11\\WebsiteNoiThat\\websitenoithat\\views\\product\\hots.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|solutionrelative:websitenoithat\\views\\product\\hots.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|D:\\source\\nhom11\\WebsiteNoiThat\\websitenoithat\\views\\product\\producthot.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|solutionrelative:websitenoithat\\views\\product\\producthot.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|D:\\source\\nhom11\\WebsiteNoiThat\\websitenoithat\\views\\product\\catekorea.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|solutionrelative:websitenoithat\\views\\product\\catekorea.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|D:\\source\\nhom11\\WebsiteNoiThat\\websitenoithat\\views\\product\\saleproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|solutionrelative:websitenoithat\\views\\product\\saleproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|D:\\source\\nhom11\\WebsiteNoiThat\\websitenoithat\\views\\product\\search.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0E199E9F-EE11-46AD-B40F-BE68E855CDED}|WebsiteNoiThat\\WebsiteNoiThat.csproj|solutionrelative:websitenoithat\\views\\product\\search.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\trand\\OneDrive\\Documents\\SQL Server Management Studio\\DBThoiTrang.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\trand\\OneDrive\\Documents\\SQL Server Management Studio\\DBThoiTrang-Data.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
     }
   ],
   "DocumentGroupContainers": [
@@ -32,7 +43,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 18,
           "Children": [
             {
               "$type": "Bookmark",
@@ -80,71 +91,95 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CategoryShow.cshtml",
+              "DocumentMoniker": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\CategoryShow.cshtml",
+              "RelativeDocumentMoniker": "WebsiteNoiThat\\Views\\Product\\CategoryShow.cshtml",
+              "ToolTip": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\CategoryShow.cshtml",
+              "RelativeToolTip": "WebsiteNoiThat\\Views\\Product\\CategoryShow.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-03T16:47:19.282Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "DBThoiTrang.cs",
-              "DocumentMoniker": "D:\\website-ban-noi-that-main\\WebsiteNoiThat\\Models\\EF\\DBThoiTrang.cs",
-              "RelativeDocumentMoniker": "Models\\EF\\DBThoiTrang.cs",
-              "ToolTip": "D:\\website-ban-noi-that-main\\WebsiteNoiThat\\Models\\EF\\DBThoiTrang.cs",
-              "RelativeToolTip": "Models\\EF\\DBThoiTrang.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T06:28:00.787Z"
+              "Title": "Hots.cshtml",
+              "DocumentMoniker": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\Hots.cshtml",
+              "RelativeDocumentMoniker": "WebsiteNoiThat\\Views\\Product\\Hots.cshtml",
+              "ToolTip": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\Hots.cshtml",
+              "RelativeToolTip": "WebsiteNoiThat\\Views\\Product\\Hots.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-03T16:47:06.451Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Web.config",
-              "DocumentMoniker": "D:\\website-ban-noi-that-main\\WebsiteNoiThat\\WebsiteNoiThat\\Web.config",
-              "RelativeDocumentMoniker": "WebsiteNoiThat\\Web.config",
-              "ToolTip": "D:\\website-ban-noi-that-main\\WebsiteNoiThat\\WebsiteNoiThat\\Web.config",
-              "RelativeToolTip": "WebsiteNoiThat\\Web.config",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAAAJgAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2024-11-29T06:16:48.003Z",
+              "Title": "ProductHot.cshtml",
+              "DocumentMoniker": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\ProductHot.cshtml",
+              "RelativeDocumentMoniker": "WebsiteNoiThat\\Views\\Product\\ProductHot.cshtml",
+              "ToolTip": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\ProductHot.cshtml",
+              "RelativeToolTip": "WebsiteNoiThat\\Views\\Product\\ProductHot.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-03T16:46:58.045Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CateKorea.cshtml",
+              "DocumentMoniker": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\CateKorea.cshtml",
+              "RelativeDocumentMoniker": "WebsiteNoiThat\\Views\\Product\\CateKorea.cshtml",
+              "ToolTip": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\CateKorea.cshtml",
+              "RelativeToolTip": "WebsiteNoiThat\\Views\\Product\\CateKorea.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-03T15:28:46.537Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SaleProduct.cshtml",
+              "DocumentMoniker": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\SaleProduct.cshtml",
+              "RelativeDocumentMoniker": "WebsiteNoiThat\\Views\\Product\\SaleProduct.cshtml",
+              "ToolTip": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\SaleProduct.cshtml",
+              "RelativeToolTip": "WebsiteNoiThat\\Views\\Product\\SaleProduct.cshtml",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAwBYAAABmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-03T15:26:34.147Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Search.cshtml",
+              "DocumentMoniker": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\Search.cshtml",
+              "RelativeDocumentMoniker": "WebsiteNoiThat\\Views\\Product\\Search.cshtml",
+              "ToolTip": "D:\\source\\nhom11\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Product\\Search.cshtml",
+              "RelativeToolTip": "WebsiteNoiThat\\Views\\Product\\Search.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAlwEIAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-03T15:07:32.086Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DBThoiTrang.sql",
+              "DocumentMoniker": "C:\\Users\\trand\\OneDrive\\Documents\\SQL Server Management Studio\\DBThoiTrang.sql",
+              "ToolTip": "C:\\Users\\trand\\OneDrive\\Documents\\SQL Server Management Studio\\DBThoiTrang.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2024-12-03T14:28:04.431Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "NewsHot.cshtml",
-              "DocumentMoniker": "D:\\website-ban-noi-that-main\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\News\\NewsHot.cshtml",
-              "RelativeDocumentMoniker": "WebsiteNoiThat\\Views\\News\\NewsHot.cshtml",
-              "ToolTip": "D:\\website-ban-noi-that-main\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\News\\NewsHot.cshtml",
-              "RelativeToolTip": "WebsiteNoiThat\\Views\\News\\NewsHot.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-29T03:30:10.635Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\website-ban-noi-that-main\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "WebsiteNoiThat\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\website-ban-noi-that-main\\WebsiteNoiThat\\WebsiteNoiThat\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "WebsiteNoiThat\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAALEAAAAAAAAAAAAAAMsAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-28T11:07:21.275Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DBThoiTrang-Data.sql",
+              "Title": "DBThoiTrang-Data.sql ",
               "DocumentMoniker": "C:\\Users\\trand\\OneDrive\\Documents\\SQL Server Management Studio\\DBThoiTrang-Data.sql",
-              "ToolTip": "C:\\Users\\trand\\OneDrive\\Documents\\SQL Server Management Studio\\DBThoiTrang-Data.sql",
+              "ToolTip": "DBThoiTrang-Data.sql ",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2024-11-26T16:08:09.811Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "DBThoiTrang.sql",
-              "DocumentMoniker": "C:\\Users\\trand\\OneDrive\\Documents\\SQL Server Management Studio\\DBThoiTrang.sql",
-              "ToolTip": "C:\\Users\\trand\\OneDrive\\Documents\\SQL Server Management Studio\\DBThoiTrang.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2024-11-26T16:08:08.927Z"
+              "WhenOpened": "2024-12-03T14:26:36.729Z",
+              "EditorCaption": ""
             }
           ]
         },

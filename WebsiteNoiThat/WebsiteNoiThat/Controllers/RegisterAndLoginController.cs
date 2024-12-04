@@ -193,7 +193,6 @@ namespace WebsiteNoiThat.Controllers
                 {
                     UserId = session.UserId,
                     NumberCard = 0,
-                    UserNumber = 0
                 };
                 return View(model);
             }
@@ -236,7 +235,6 @@ namespace WebsiteNoiThat.Controllers
                         {
                             UserId = n.UserId,
                             NumberCard = 0,
-                            UserNumber = 0
                         };
 
                         db.Cards.Add(card);
@@ -266,48 +264,35 @@ namespace WebsiteNoiThat.Controllers
         public ActionResult ViewLogin()
         {
             var session = (UserLogin)Session[WebsiteNoiThat.Common.Commoncontent.user_sesion];
+            
             if(session != null)
             {
-                var model = db.Cards.FirstOrDefault(n => n.UserId == session.UserId);
-                if (model == null)
-                {
-                    return PartialView();
-                }
+                var card = db.Cards.FirstOrDefault(n => n.UserId == session.UserId);
                 
-                var models = (from a in db.OrderDetails
-                            join b in db.Orders
-                            on a.OrderId equals b.OrderId
-                            join c in db.Products
-                            on a.ProductId equals c.ProductId
-                            join d in db.Users on b.UserId equals d.UserId
-                            join e in db.Cards on d.UserId equals e.UserId
-                            where b.StatusId == 5 && e.UserId == session.UserId
-                            select new
-                            {
-                                ProductId = a.ProductId,
-                                Price = a.Price,
-                                Quantity = a.Quantity,
-                                Discount = c.Discount,
-                                NumberCard = e.NumberCard,
-                                Username = d.Username
-                            }).ToList();
-                    if (models.Count()==0)
+                if (card != null)
+                {
+                    ViewBag.Card = card.NumberCard;
+                    var completedOrders = (from a in db.OrderDetails
+                                join b in db.Orders on a.OrderId equals b.OrderId
+                                join c in db.Products on a.ProductId equals c.ProductId
+                                where b.StatusId == 5 && b.UserId == session.UserId
+                                select new
+                                {
+                                    Price = a.Price,
+                                    Quantity = a.Quantity,
+                                    Discount = c.Discount
+                                }).ToList();
+
+                    if (completedOrders.Any())
                     {
-                        ViewBag.Card = 0;
-                    }
-                    else
-                    {
-                        double? total = 0;
-                        foreach (var item in models)
-                        {
-                            total += ((item.Price.GetValueOrDefault(0) - (item.Price.GetValueOrDefault(0) * item.Discount.GetValueOrDefault(0) * 0.01)) * item.Quantity);
-                        }
-                      
-                        model.NumberCard = Convert.ToInt32(total / 1000)- model.UserNumber;
+                        double? total = completedOrders.Sum(item => 
+                            (item.Price.GetValueOrDefault(0) - 
+                            (item.Price.GetValueOrDefault(0) * item.Discount.GetValueOrDefault(0) * 0.01)) 
+                            * item.Quantity);
+                        
                         db.SaveChanges();
-                        ViewBag.Card = model.NumberCard;
                     }
-               
+                }
             }
             return PartialView();
         }

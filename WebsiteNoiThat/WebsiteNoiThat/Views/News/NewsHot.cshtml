@@ -2,18 +2,44 @@
 
 @foreach (var news in Model)
 {
-    <div class="card border-0">
+    <div class="card border-0 shadow-sm mb-4 hover-zoom">
         <div class="position-relative overflow-hidden">
-            <a href="/News/Show?NewsId=@news.NewsId">
-                <img class="img-fluid w-100" src="@Url.Content("~/image/" + news.Photo)" alt="@news.Title" style="height: 200px; object-fit: cover;">
+            <a href="/News/Show?NewsId=@news.NewsId" class="text-decoration-none">
+                <img class="img-fluid w-100 rounded-top" src="@Url.Content("~/image/" + news.Photo)" alt="@news.Title" style="height: 250px; object-fit: cover;">
+                <div class="overlay-gradient"></div>
             </a>
         </div>
         <div class="card-body text-center p-4">
-            <h5 class="mb-3">@news.Title</h5>
-            <p class="text-muted mb-3">@news.Detail</p>
+            <h4 class="card-title fw-bold mb-3 text-primary">@news.Title</h4>
+            <p class="card-text text-muted mb-3" style="line-height: 1.6">@news.Detail</p>
+            <a href="/News/Show?NewsId=@news.NewsId" class="btn btn-outline-primary rounded-pill px-4">
+                Xem thêm <i class="fas fa-arrow-right ms-2"></i>
+            </a>
         </div>
     </div>
 }
 
+<style>
+.hover-zoom {
+    transition: transform 0.3s ease;
+}
 
+.hover-zoom:hover {
+    transform: translateY(-5px);
+}
 
+.overlay-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.card:hover .overlay-gradient {
+    opacity: 1;
+}
+</style>

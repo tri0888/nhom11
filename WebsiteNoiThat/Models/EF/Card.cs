@@ -13,10 +13,6 @@ namespace Models.EF
 
         public int? NumberCard { get; set; }
 
-        public int? UserNumber { get; set; }
-
         public int? UserId { get; set; }
-
-        public int? Identification { get; set; }
     }
 }

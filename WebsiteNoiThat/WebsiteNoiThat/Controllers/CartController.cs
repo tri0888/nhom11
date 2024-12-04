@@ -180,11 +180,10 @@ namespace WebsiteNoiThat.Controllers
                 var cart = Session[CartSession];
                 var list = new List<CartItem>();
                 decimal? total = 0;
+                
                 if (cart != null)
                 {
-                    ViewBag.Status = "Đang chờ xác nhận";
                     list = (List<CartItem>)cart;
-                    
                     foreach(CartItem item in list)
                     {
                         decimal itemPrice = item.Product.Price ?? 0;
@@ -195,8 +194,16 @@ namespace WebsiteNoiThat.Controllers
                         total += finalPrice * item.Quantity;
                     }
                 }
+
+                var userCard = GetUserCard(session.UserId);
                 ViewBag.ListItem = list;
-                ViewBag.total = total;
+                ViewBag.Total = total;
+                ViewBag.UserCard = userCard;
+                ViewBag.PointDiscount = 0M;
+                ViewBag.FinalTotal = total;
+
+                // Xóa session điểm cũ khi vào trang thanh toán
+                Session["UsedPoints"] = null;
 
                 return View(model);
             }
@@ -206,86 +213,145 @@ namespace WebsiteNoiThat.Controllers
             }
         }
 
+        public Card GetUserCard(int userId)
+        {
+            return db.Cards.FirstOrDefault(c => c.UserId == userId);
+        }
+
+        [HttpPost]
+        public JsonResult UsePoints(int points)
+        {
+            var session = (UserLogin)Session[Commoncontent.user_sesion];
+            if (session == null)
+                return Json(new { success = false, message = "Vui lòng đăng nhập" });
+
+            var card = GetUserCard(session.UserId);
+            if (card == null)
+                return Json(new { success = false, message = "Không tìm thấy thẻ tích điểm" });
+
+            if (card.NumberCard < points)
+                return Json(new { success = false, message = "Số điểm không đủ" });
+
+            if (points < 0)
+                return Json(new { success = false, message = "Số điểm không hợp lệ" });
+
+            // Lưu số điểm sử dụng vào session
+            Session["UsedPoints"] = points;
+            
+            // Tính số tiền được giảm (1 điểm = 1000đ)
+            decimal discount = points * 1000;
+
+            // Lấy tổng tiền hiện tại
+            var cart = Session[CartSession] as List<CartItem>;
+            decimal? total = cart?.Sum(item => {
+                var price = item.Product.Price ?? 0;
+                var discountRate = item.Product.Discount > 0 ? item.Product.Discount * 0.01M : 0;
+                return (price - (price * discountRate)) * item.Quantity;
+            }) ?? 0;
+
+            // Tính tổng tiền sau khi giảm
+            decimal? finalTotal = total - discount;
+            
+            return Json(new { 
+                success = true, 
+                discount = discount,
+                total = total,
+                finalTotal = finalTotal,
+                message = $"Áp dụng {points} điểm thành công" 
+            });
+        }
+
         [HttpPost]
         public ActionResult PayBy(User n)
         {
-            var session = (UserLogin)Session[WebsiteNoiThat.Common.Commoncontent.user_sesion];
+            var session = (UserLogin)Session[Commoncontent.user_sesion];
             var model = db.Users.SingleOrDefault(a => a.UserId == session.UserId);
-            if (true == true)
+            
+            try
             {
-                model.UserId = session.UserId;
+                // Cập nhật thông tin người dùng
                 model.Name = n.Name;
                 model.Phone = n.Phone;
-                model.Password = model.Password;
-                model.GroupId = model.GroupId;
                 model.Address = n.Address;
-
-                model.Status = true;
                 model.Email = n.Email;
-                model.Username = session.Username;
                 db.Entry(model).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
+                
+                // Tạo đơn hàng mới
+                var order = new Order
+                {
+                    UpdateDate = DateTime.Now,
+                    ShipAddress = n.Address,
+                    ShipPhone = n.Phone,
+                    ShipName = n.Name,
+                    ShipEmail = n.Email,
+                    UserId = session.UserId,
+                    StatusId = 1
+                };
 
-                var order = new Order();
-                order.UpdateDate = DateTime.Now;
-                //order.UpdateDate = DateTime.ToString("yyyy-MM-dd h:mm:ss");
-                //DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
-                order.ShipAddress = n.Address;
-                order.ShipPhone = n.Phone;
-                order.ShipName = n.Name;
-                order.ShipEmail = n.Email;
-                order.UserId = session.UserId;
-                order.StatusId = 1;
-
-
-                var id = new OrderDao().Insert(order);
+                // Lưu đơn hàng và lấy ID
+                var orderId = new OrderDao().Insert(order);
                 var cart = (List<CartItem>)Session[CartSession];
                 var detailDao = new OrderDetailDao();
-                double total = 0;
-                double a = 0;
-                var htmldata = "<p><b>STT | Tên | Số lượng | Đơn giá | Khuyến mại</b></p>";
-                int count = 0;
+                decimal? total = 0;
+
+                // Xử lý từng sản phẩm trong giỏ hàng
                 foreach (var item in cart)
                 {
-                        var orderDetail = new OrderDetail();
-                        orderDetail.OrderId = id;
-                        orderDetail.ProductId = item.Product.ProductId;
-
-                        //a = Convert.ToInt32(item.Product.Price);
-                        var discountprice = Convert.ToInt32(item.Product.Price - item.Product.Price * item.Product.Discount * 0.01);
-                        orderDetail.Price = discountprice;
-
-                        orderDetail.Quantity = item.Quantity;
+                    var product = db.Products.Find(item.Product.ProductId);
+                    if (product != null && product.Quantity >= item.Quantity)
+                    {
+                        decimal? discountPrice = item.Product.Price - (item.Product.Price * item.Product.Discount * 0.01M);
+                        var orderDetail = new OrderDetail
+                        {
+                            OrderId = orderId,
+                            ProductId = item.Product.ProductId,
+                            Price = (int)discountPrice,
+                            Quantity = item.Quantity
+                        };
 
                         detailDao.Insert(orderDetail);
-                        total += discountprice * item.Quantity;
-                        var pro = db.Products.FirstOrDefault(m => m.ProductId == item.Product.ProductId);
-                        pro.Quantity = pro.Quantity - item.Quantity;
-                        htmldata += "<p>"+count+"  |  "+item.Product.Name+ "  |  "+item.Quantity+"  |  "+ discountprice.ToString("N0") +" | "+item.Product.Discount.ToString()+" %</p>";
-                        db.SaveChanges();
-                        count += 1;
+                        total += discountPrice * item.Quantity;
+                        
+                        // Cập nhật số lượng sản phẩm
+                        product.Quantity -= item.Quantity;
+                    }
                 }
 
+                // Xử lý điểm tích lũy
+                var card = GetUserCard(session.UserId);
+                if (card != null)
+                {
+                    // Trừ điểm ã sử dụng
+                    int usedPoints = Session["UsedPoints"] != null ? (int)Session["UsedPoints"] : 0;
+                    card.NumberCard -= usedPoints;
+                    
+                    // Cộng điểm mới (1 điểm cho mỗi 1,000,000đ)
+                    int newPoints = (int)(total / 1000000);
+                    card.NumberCard += newPoints;
+                    
+                    db.SaveChanges();
+                    Session["UsedPoints"] = null;
+                }
+
+                // Gửi email xác nhận
                 string content = System.IO.File.ReadAllText(Server.MapPath("~/Common/neworder.html"));
+                content = content.Replace("{{id}}", orderId.ToString())
+                                .Replace("{{CustomerName}}", n.Name)
+                                .Replace("{{Phone}}", n.Phone.ToString())
+                                .Replace("{{Email}}", n.Email)
+                                .Replace("{{Address}}", n.Address)
+                                .Replace("{{Total}}", total.ToString());
 
-                content = content.Replace("{{id}}", id.ToString());
-                content = content.Replace("{{CustomerName}}", n.Name);
-                content = content.Replace("{{Phone}}", n.Phone.ToString());
-                content = content.Replace("{{Email}}", n.Email);
-                content = content.Replace("{{Address}}", n.Address);
-                content = content.Replace("{{Total}}", total.ToString("N0"));
-                content = content.Replace("{{data}}", htmldata);
+                new MailHelper().SendMail(n.Email, "Đơn hàng mới từ Thời Trang Cao Cấp", content);
+                
+                // Xóa giỏ hàng
+                Session[CartSession] = null;
 
-                var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
-
-                new MailHelper().SendMail(n.Email, "Đơn hàng mới từ NOITHATGO.VN", content);
-                //new MailHelper().SendMail(toEmail, "Đơn hàng mới từ NoiThatShop", content);
-
-                ViewBag.EMAIL = n.Email;
                 return Redirect("/hoan-thanh");
             }
-            else
+            catch (Exception ex)
             {
+                // Log lỗi ở đây
                 return Redirect("/Cart/Error");
             }
         }

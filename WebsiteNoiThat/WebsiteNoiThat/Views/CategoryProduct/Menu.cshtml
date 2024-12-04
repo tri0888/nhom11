@@ -2,5 +2,24 @@
 
 @foreach (var item in Model.Where(n => n.ParId == 0))
 {
-    <a href="/danh-muc/@item.CategoryId" class="nav-item nav-link">@item.Name</a>
+    <a href="/danh-muc/@item.CategoryId" class="dropdown-item py-2 px-4 d-flex align-items-center text-dark hover-bg-light border-bottom">
+        <i class="fas fa-angle-right me-2 text-primary"></i>
+        <span>@item.Name</span>
+    </a>
 }
+
+<style>
+.hover-bg-light:hover {
+    background-color: #f8f9fa;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none !important;
+}
+</style>

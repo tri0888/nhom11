@@ -3084,6 +3084,9 @@
     <Content Include="image\98.jpg" />
     <Content Include="image\99.jpg" />
     <Content Include="image\hot.png" />
+    <Content Include="image\News1.jpg" />
+    <Content Include="image\News2.jpg" />
+    <Content Include="image\News3.jpg" />
     <Content Include="image\Next-2-2-icon.png" />
     <Content Include="image\Previous-icon.png" />
     <Content Include="image\sale-icon.png" />

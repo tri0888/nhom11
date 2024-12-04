@@ -7,76 +7,94 @@
 }
 
 @section Noidungmenu{    
-    <div class="border-bottom mb-4 pb-4">
-        <h5 class="font-weight-semi-bold mb-4">Kết quả lọc theo giá:</h5>
-        @{
-            string priceRangeText = "";
-            if (Request.QueryString["priceRange"] == "0") { priceRangeText = "Dưới 5 Triệu"; }
-            if (Request.QueryString["priceRange"] == "1") { priceRangeText = "5 Triệu - 10 Triệu"; }
-            if (Request.QueryString["priceRange"] == "2") { priceRangeText = "10 Triệu - 20 Triệu"; }
-            if (Request.QueryString["priceRange"] == "3") { priceRangeText = "20 Triệu - 50 Triệu"; }
-            if (Request.QueryString["priceRange"] == "4") { priceRangeText = "Trên 50 Triệu"; }
-        }
-        <h6>@priceRangeText</h6>
+    <div class="card shadow-sm mb-5">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Kết quả lọc theo giá</h4>
+            @{
+                string priceRangeText = "";
+                if (Request.QueryString["priceRange"] == "0") { priceRangeText = "Dưới 5 Triệu"; }
+                if (Request.QueryString["priceRange"] == "1") { priceRangeText = "5 Triệu - 10 Triệu"; }
+                if (Request.QueryString["priceRange"] == "2") { priceRangeText = "10 Triệu - 20 Triệu"; }
+                if (Request.QueryString["priceRange"] == "3") { priceRangeText = "20 Triệu - 50 Triệu"; }
+                if (Request.QueryString["priceRange"] == "4") { priceRangeText = "Trên 50 Triệu"; }
+            }
+            <h5 class="text-primary">@priceRangeText</h5>
+        </div>
     </div>
 
     @if (Model != null && Model.Any())
     {
-        <div class="row pb-3">
+        <div class="row g-4 pb-5">
             @foreach (var sp in Model)
             {
-                <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4" onclick="window.location='@Url.Action("DetailProduct", new { @Id = sp.ProductId })'" style="cursor: pointer;">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="@Url.Content("~/image/" + sp.Photo)" alt="@sp.Name" style="height: 280px; object-fit: cover;">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 product-card border-0 shadow-sm transition-hover" 
+                         onclick="window.location='@Url.Action("DetailProduct", new { @Id = sp.ProductId })'" 
+                         style="cursor: pointer;">
+                        <div class="position-relative overflow-hidden">
+                            <img class="card-img-top" src="@Url.Content("~/image/" + sp.Photo)" 
+                                 alt="@sp.Name" style="height: 300px; object-fit: cover;">
                             @if (sp.Discount != 0 && sp.EndDate > DateTime.Now && sp.StartDate < DateTime.Now)
                             {
-                                <span class="badge badge-danger position-absolute" style="top: 10px; right: 10px;">-@sp.Discount%</span>
+                                <div class="position-absolute top-0 end-0 m-3">
+                                    <span class="badge bg-danger rounded-pill fs-6 px-3 py-2">-@sp.Discount%</span>
+                                </div>
                             }
                         </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">@sp.Name</h6>
-                            <div class="d-flex justify-content-center">
+                        <div class="card-body text-center p-4">
+                            <h5 class="card-title text-truncate mb-3">@sp.Name</h5>
+                            <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
                                 @if (sp.Discount != 0 && sp.EndDate > DateTime.Now && sp.StartDate < DateTime.Now)
                                 {
-                                    <h6 class="text-muted ml-2"><del>@sp.Price.GetValueOrDefault(0).ToString("N0")₫</del></h6>
-                                    <h6 class="text-danger ml-2">@((sp.Price - (sp.Price * sp.Discount * 0.01)).GetValueOrDefault(0).ToString("N0"))₫</h6>
-                                    <p class="small text-muted">(@string.Format("{0:d}", sp.StartDate) - @string.Format("{0:d}", sp.EndDate))</p>
+                                    <span class="text-decoration-line-through text-muted">@sp.Price.GetValueOrDefault(0).ToString("N0")₫</span>
+                                    <span class="fs-5 text-danger fw-bold">@((sp.Price - (sp.Price * sp.Discount * 0.01)).GetValueOrDefault(0).ToString("N0"))₫</span>
+                                    <div class="small text-muted mt-2">
+                                        (@string.Format("{0:d}", sp.StartDate) - @string.Format("{0:d}", sp.EndDate))
+                                    </div>
                                 }
                                 else
                                 {
-                                    <h6>@sp.Price.GetValueOrDefault(0).ToString("N0")₫</h6>
+                                    <span class="fs-5 fw-bold">@sp.Price.GetValueOrDefault(0).ToString("N0")₫</span>
                                 }
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="@Url.Action("DetailProduct", new { @Id = sp.ProductId })" class="btn btn-sm text-dark p-0" onclick="event.stopPropagation();">
-                                <i class="fas fa-eye text-primary mr-1"></i>Chi tiết
-                            </a>
-                            <a href="/them-gio-hang?ProductId=@sp.ProductId&quantity=1" class="btn btn-sm text-dark p-0" onclick="event.stopPropagation();">
-                                <i class="fas fa-shopping-cart text-primary mr-1"></i>Thêm vào giỏ
-                            </a>
+                        <div class="card-footer bg-transparent border-0 p-4">
+                            <div class="d-flex justify-content-between">
+                                <a href="@Url.Action("DetailProduct", new { @Id = sp.ProductId })" 
+                                    class="btn btn-outline-primary btn-sm" onclick="event.stopPropagation();">
+                                        <i class="fas fa-eye me-1"></i>Chi tiết
+                                </a>
+                                <a href="/them-gio-hang?productid=@sp.ProductId&quantity=1" 
+                                    class="btn btn-primary btn-sm" onclick="event.stopPropagation();">
+                                        <i class="fas fa-shopping-cart me-1"></i>Thêm vào giỏ
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             }
         </div>
 
-        <div class="col-12 pb-1">
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center mb-3">
+        <div class="col-12">
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
                     @Html.PagedListPager(Model, page => Url.Action("SearchFocus", new { 
                         page,
                         priceRange = Request.QueryString["priceRange"]
-                    }))
+                    }), new PagedListRenderOptions {
+                        LiElementClasses = new string[] { "page-item" },
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Always
+                    })
                 </ul>
             </nav>
         </div>
     }
     else
     {
-        <div class="alert alert-info">
-            Không tìm thấy sản phẩm nào phù hợp với tiêu chí tìm kiếm
+        <div class="alert alert-info text-center py-4">
+            <i class="fas fa-search-minus fa-3x mb-3"></i>
+            <h4>Không tìm thấy sản phẩm nào phù hợp với tiêu chí tìm kiếm</h4>
         </div>
     }
 }

@@ -64,8 +64,8 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
         public ActionResult Logout()
         {
             Session[Commoncontent.user_sesion_admin] = null;
-            Session[Commoncontent.SESSION_CREDENTIALS] = null;
-           FormsAuthentication.SignOut();
+            Session[Commoncontent.SESSION_CREDENTIALS] = null;            
+            FormsAuthentication.SignOut();
             return RedirectToAction("Index","Login");
         }
          

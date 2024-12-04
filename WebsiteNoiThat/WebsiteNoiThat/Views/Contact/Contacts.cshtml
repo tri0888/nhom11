@@ -4,33 +4,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container py-4">
-    
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb bg-transparent p-0">
+            <li class="breadcrumb-item">
+                <a href="/" class="text-decoration-none">
+                    <i class="fas fa-home"></i>
+                </a>
+            </li>
+            <li class="breadcrumb-item active">Liên hệ</li>
+        </ol>
+    </nav>
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <div class="contact-info mb-4">
-                <h4 class="text-primary mb-3">Studio Thời Trang Cao Cấp</h4>
-                <div class="d-flex align-items-center mb-2">
-                    <i class="fas fa-map-marker-alt text-primary mr-3"></i>
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-body p-4 p-lg-5">
+            <div class="contact-info mb-5">
+                <h3 class="text-primary fw-bold mb-4">Studio Thời Trang Cao Cấp</h3>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="icon-box bg-primary bg-opacity-10 rounded-3 me-3">
+                        <i class="fas fa-map-marker-alt text-primary"></i>
+                    </div>
                     <div>Ngõ 34 - Phú Kiều - Kiều Mai</div>
                 </div>
                 <div class="d-flex align-items-center">
-                    <i class="fas fa-phone text-primary mr-3"></i>
+                    <div class="icon-box bg-primary bg-opacity-10 rounded-3 me-3">
+                        <i class="fas fa-phone text-primary"></i>
+                    </div>
                     <div>01649.629.629</div>
                 </div>
             </div>
 
-            <h4 class="text-primary mb-4">Gửi tin nhắn cho chúng tôi</h4>
+            <h4 class="text-primary fw-bold mb-4">
+                <i class="fas fa-envelope me-2"></i>
+                Gửi tin nhắn cho chúng tôi
+            </h4>
             
-            @using (Html.BeginForm())
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "needs-validation" }))
             {
                 @Html.AntiForgeryToken()
                 
                 if (!ViewData.ModelState.IsValid)
                 {
-                    <div class="alert alert-danger">
-                        <i class="fas fa-exclamation-circle mr-2"></i>
+                    <div class="alert alert-danger rounded-3 border-start border-danger border-4">
+                        <i class="fas fa-exclamation-circle me-2"></i>
                         <strong>Có lỗi xảy ra:</strong>
                         <ul class="mb-0 mt-2">
                             @foreach (var modelState in ViewData.ModelState.Values)
@@ -42,108 +58,102 @@
                             }
                         </ul>
                     </div>
-                    
                 }
                 else if(ViewBag.Status != null)
                 {
-                        <div class="alert alert-success mt-3 fade show">
-                            <i class="fas fa-check-circle mr-2"></i>@ViewBag.Status
-                        </div>
-                    
+                    <div class="alert alert-success rounded-3 border-start border-success border-4">
+                        <i class="fas fa-check-circle me-2"></i>@ViewBag.Status
+                    </div>
                 }
 
-                <div class="form-group">
-                    <label><i class="fas fa-envelope mr-2"></i>Email của bạn</label>
-                    @Html.EditorFor(model => model.ToEmail, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập email của bạn" } })
-                    @Html.ValidationMessageFor(model => model.ToEmail, "", new { @class = "text-danger small" })
+                <div class="mb-4">
+                    <label class="form-label fw-medium">
+                        <i class="fas fa-envelope me-2 text-primary"></i>Email của bạn
+                    </label>
+                    @Html.EditorFor(model => model.ToEmail, new { htmlAttributes = new { @class = "form-control form-control-lg", placeholder = "Nhập email của bạn" } })
+                    @Html.ValidationMessageFor(model => model.ToEmail, "", new { @class = "text-danger small mt-1" })
                 </div>
 
-                <div class="form-group">
-                    <label><i class="fas fa-heading mr-2"></i>Tiêu đề</label>
-                    @Html.EditorFor(model => model.EmailSubject, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tiêu đề" } })
-                    @Html.ValidationMessageFor(model => model.EmailSubject, "", new { @class = "text-danger small" })
+                <div class="mb-4">
+                    <label class="form-label fw-medium">
+                        <i class="fas fa-heading me-2 text-primary"></i>Tiêu đề
+                    </label>
+                    @Html.EditorFor(model => model.EmailSubject, new { htmlAttributes = new { @class = "form-control form-control-lg", placeholder = "Nhập tiêu đề" } })
+                    @Html.ValidationMessageFor(model => model.EmailSubject, "", new { @class = "text-danger small mt-1" })
                 </div>
 
-                <div class="form-group">
-                    <label><i class="fas fa-comment mr-2"></i>Nội dung</label>
-                    @Html.TextAreaFor(model => model.EMailBody, new { @class = "form-control", rows = "5", placeholder = "Nhập nội dung tin nhắn" })
-                    @Html.ValidationMessageFor(model => model.EMailBody, "", new { @class = "text-danger small" })
+                <div class="mb-4">
+                    <label class="form-label fw-medium">
+                        <i class="fas fa-comment me-2 text-primary"></i>Nội dung
+                    </label>
+                    @Html.TextAreaFor(model => model.EMailBody, new { @class = "form-control form-control-lg", rows = "5", placeholder = "Nhập nội dung tin nhắn" })
+                    @Html.ValidationMessageFor(model => model.EMailBody, "", new { @class = "text-danger small mt-1" })
                 </div>
 
-                <div class="form-group">
-                    <label><i class="fas fa-copy mr-2"></i>CC (không bắt buộc)</label>
-                    @Html.EditorFor(model => model.EmailCC, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập email CC" } })
-                    @Html.ValidationMessageFor(model => model.EmailCC, "", new { @class = "text-danger small" })
+                <div class="mb-4">
+                    <label class="form-label fw-medium">
+                        <i class="fas fa-copy me-2 text-primary"></i>CC (không bắt buộc)
+                    </label>
+                    @Html.EditorFor(model => model.EmailCC, new { htmlAttributes = new { @class = "form-control form-control-lg", placeholder = "Nhập email CC" } })
+                    @Html.ValidationMessageFor(model => model.EmailCC, "", new { @class = "text-danger small mt-1" })
                 </div>
 
-                <div class="form-group">
-                    <label><i class="fas fa-user-secret mr-2"></i>BCC (không bắt buộc)</label>
-                    @Html.EditorFor(model => model.EmailBCC, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập email BCC" } })
-                    @Html.ValidationMessageFor(model => model.EmailBCC, "", new { @class = "text-danger small" })
+                <div class="mb-4">
+                    <label class="form-label fw-medium">
+                        <i class="fas fa-user-secret me-2 text-primary"></i>BCC (không bắt buộc)
+                    </label>
+                    @Html.EditorFor(model => model.EmailBCC, new { htmlAttributes = new { @class = "form-control form-control-lg", placeholder = "Nhập email BCC" } })
+                    @Html.ValidationMessageFor(model => model.EmailBCC, "", new { @class = "text-danger small mt-1" })
                 </div>
 
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-paper-plane mr-2"></i>Gửi tin nhắn
+                <button type="submit" class="btn btn-primary btn-lg px-5 py-3 rounded-3">
+                    <i class="fas fa-paper-plane me-2"></i>Gửi tin nhắn
                 </button>                
             }
         </div>
     </div>
-
 </div>
 
 <style>
-    .card {
-        border-radius: 10px;
-        max-width: 800px;
-        margin: 0 auto;
+    .icon-box {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
-    .contact-info i {
-        font-size: 20px;
-        width: 30px;
+    .icon-box i {
+        font-size: 1.25rem;
+    }
+    
+    .form-control {
+        border: 2px solid #dee2e6;
+        padding: 0.75rem 1rem;
     }
     
     .form-control:focus {
-        border-color: #bac8f3;
-        box-shadow: 0 0 0 0.2rem rgba(78,115,223,.25);
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.25rem rgba(209, 155, 152, 0.25);
     }
     
-    .btn-primary {
-        padding: 10px 25px;
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(209, 155, 152, 0.4);
     }
     
-    .breadcrumb {
-        border-radius: 10px;
-    }
-
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    label {
-        margin-bottom: 0.5rem;
-        color: #212529;
-    }
-
     .alert {
-        border-radius: 8px;
-        padding: 15px;
+        padding: 1rem 1.25rem;
     }
-
-    .alert-danger {
-        border-left: 4px solid #dc3545;
+    
+    .form-label {
+        margin-bottom: 0.5rem;
     }
-
-    .alert-success {
-        border-left: 4px solid #28a745;
-    }
-
-    .fade {
-        opacity: 0;
-        transition: opacity 0.15s linear;
-    }
-
-    .fade.show {
-        opacity: 1;
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f054";
+        font-size: 0.75rem;
     }
 </style>

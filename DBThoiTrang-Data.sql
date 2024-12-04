@@ -109,10 +109,10 @@ GO
 -- Card data
 SET IDENTITY_INSERT [dbo].[Card] ON 
 GO
-INSERT [dbo].[Card] ([CardId], [NumberCard], [UserNumber], [UserId], [Identification]) VALUES 
-(1, 560, 70000, 40, 2314234),
-(2, 5600, 0, 39, 174660210),
-(3, 0, 0, 41, NULL)
+INSERT [dbo].[Card] ([CardId], [NumberCard], [UserId]) VALUES 
+(1, 560, 40),
+(2, 5600, 39),
+(3, 0, 41)
 GO
 SET IDENTITY_INSERT [dbo].[Card] OFF
 GO

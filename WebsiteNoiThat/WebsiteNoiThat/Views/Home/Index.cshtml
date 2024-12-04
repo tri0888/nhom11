@@ -4,39 +4,26 @@
 }
 
 @section Slider {
-    <div id="header-carousel" class="carousel slide" data-ride="carousel">
+    <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active" style="height: 410px;">
-                <img class="img-fluid" src="~/Content/EShopper/img/carousel-1.jpg" alt="Image">
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width: 700px;">
-                        <h4 class="text-light text-uppercase font-weight-medium mb-3">Giảm 10% Cho Đơn Hàng Đầu Tiên</h4>
-                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">Thời Trang Cao Cấp</h3>
-                        <a href="" class="btn btn-light py-2 px-3">Mua Ngay</a>
+            @{
+                string[] slides = { "slide1.jpg", "slide2.jpg", "slide3.jpg", "slide4.jpg" };
+                for (int i = 0; i < slides.Length; i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")" style="height: 410px;">
+                        <img class="img-fluid" src="~/image/@slides[i]" alt="Image">
                     </div>
-                </div>
-            </div>
-            <div class="carousel-item" style="height: 410px;">
-                <img class="img-fluid" src="~/Content/EShopper/img/carousel-2.jpg" alt="Image">
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width: 700px;">
-                        <h4 class="text-light text-uppercase font-weight-medium mb-3">Giảm 10% Cho Đơn Hàng Đầu Tiên</h4>
-                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">Giá Cả Hợp Lý</h3>
-                        <a href="" class="btn btn-light py-2 px-3">Mua Ngay</a>
-                    </div>
-                </div>
-            </div>
+                }
+            }
         </div>
-        <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
-            <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                <span class="carousel-control-prev-icon mb-n2"></span>
-            </div>
-        </a>
-        <a class="carousel-control-next" href="#header-carousel" data-slide="next">
-            <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                <span class="carousel-control-next-icon mb-n2"></span>
-            </div>
-        </a>
+        <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 }
 
@@ -73,38 +60,138 @@
 
 <!-- Products Start -->
 <div class="container-fluid pt-5">
-    <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Sản Phẩm Mới</span></h2>
+    <!-- Sản phẩm mới -->
+    <div class="product-section mb-5 position-relative" 
+         style="background: rgba(255,255,255,0.8);
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 30px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);">
+        <div class="glowing-border" style="position: absolute; inset: 0; border-radius: 20px; z-index: -1;
+                                         background: linear-gradient(45deg, #ff6b6b, #4facfe, #00f2fe, #ffd93d);
+                                         filter: blur(15px); opacity: 0.5;"></div>
+        <div class="text-center mb-4 position-relative">
+            <h2 class="section-title">
+                <span class="px-4 py-2" style="background: rgba(255,255,255,0.95); 
+                                              border-radius: 15px;
+                                              position: relative;
+                                              display: inline-block;">
+                    ✨ Sản Phẩm Mới
+                    <div class="moving-gradient" style="position: absolute; inset: 0; border-radius: 15px;
+                                                      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+                                                      animation: shine 3s infinite;"></div>
+                </span>
+            </h2>
+        </div>
+        <div class="row px-xl-5">
+            @Html.Action("NewProduct", "Product")
+        </div>
     </div>
-    <div class="row px-xl-5 pb-3">
-        @Html.Action("NewProduct", "Product")
+
+    <!-- Sản phẩm khuyến mãi -->
+    <div class="product-section mb-5 position-relative" 
+         style="background: rgba(255,255,255,0.8);
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 30px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);">
+        <div class="glowing-border" style="position: absolute; inset: 0; border-radius: 20px; z-index: -1;
+                                         background: linear-gradient(45deg, #FF416C, #FF4B2B, #f7797d);
+                                         filter: blur(15px); opacity: 0.5;"></div>
+        <div class="text-center mb-4">
+            <h2 class="section-title">
+                <span class="px-4 py-2" style="background: rgba(255,255,255,0.95); 
+                                              border-radius: 15px;
+                                              position: relative;
+                                              display: inline-block;">
+                    🔥 Sản Phẩm Khuyến Mãi
+                    <div class="moving-gradient"></div>
+                </span>
+            </h2>
+        </div>
+        <div class="row px-xl-5">
+            @Html.Action("SaleProduct", "Product")
+        </div>
+    </div>
+
+    <!-- Thời trang Hàn Quốc -->
+    <div class="product-section mb-5 position-relative" 
+         style="background: rgba(255,255,255,0.8);
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 30px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);">
+        <div class="glowing-border" style="position: absolute; inset: 0; border-radius: 20px; z-index: -1;
+                                         background: linear-gradient(45deg, #a8edea, #fed6e3, #c2e9fb);
+                                         filter: blur(15px); opacity: 0.5;"></div>
+        <div class="text-center mb-4">
+            <h2 class="section-title">
+                <span class="px-4 py-2" style="background: rgba(255,255,255,0.95); 
+                                              border-radius: 15px;
+                                              position: relative;
+                                              display: inline-block;">
+                    🌸 Thời Trang Hàn Quốc
+                    <div class="moving-gradient"></div>
+                </span>
+            </h2>
+        </div>
+        <div class="row px-xl-5">
+            @Html.Action("CateKorea", "Product")
+        </div>
+    </div>
+
+    <!-- Thời trang Havana -->
+    <div class="product-section mb-5 position-relative" 
+         style="background: rgba(255,255,255,0.8);
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 30px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);">
+        <div class="glowing-border" style="position: absolute; inset: 0; border-radius: 20px; z-index: -1;
+                                         background: linear-gradient(45deg, #fad0c4, #ffd1ff, #fbc2eb);
+                                         filter: blur(15px); opacity: 0.5;"></div>
+        <div class="text-center mb-4">
+            <h2 class="section-title">
+                <span class="px-4 py-2" style="background: rgba(255,255,255,0.95); 
+                                              border-radius: 15px;
+                                              position: relative;
+                                              display: inline-block;">
+                    🌴 Thời Trang Havana
+                    <div class="moving-gradient"></div>
+                </span>
+            </h2>
+        </div>
+        <div class="row px-xl-5">
+            @Html.Action("CateHavana", "Product")
+        </div>
     </div>
 </div>
 
-<div class="container-fluid pt-5">
-    <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Sản Phẩm Khuyến Mãi</span></h2>
-    </div>
-    <div class="row px-xl-5 pb-3">
-        @Html.Action("SaleProduct", "Product")
-    </div>
-</div>
+<style>
+@@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
 
-<div class="container-fluid pt-5">
-    <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Thời Trang Hàn Quốc</span></h2>
-    </div>
-    <div class="row px-xl-5 pb-3">
-        @Html.Action("CateKorea", "Product")
-    </div>
-</div>
+.moving-gradient {
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    animation: shine 3s infinite;
+}
 
-<div class="container-fluid pt-5">
-    <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">Thời Trang Havana</span></h2>
-    </div>
-    <div class="row px-xl-5 pb-3">
-        @Html.Action("CateHavana", "Product")
-    </div>
-</div>
+.product-section {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.37);
+}
+</style>
 <!-- Products End -->

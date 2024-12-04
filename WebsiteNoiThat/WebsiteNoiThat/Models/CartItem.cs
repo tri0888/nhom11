@@ -12,5 +12,8 @@ namespace WebsiteNoiThat.Models
         public Product Product { get; set; }
         public int Quantity { get; set; }
         public bool Status { get; set; }
+        public int Points { get; set; }
+        public decimal? TotalPurchase { get; set; }
+        public decimal? DiscountedPrice { get; set; }
     }
 }
