@@ -6,7 +6,7 @@
 }
 
 .table thead {
-    background: #4e73df;
+    background: #d19b98;
 }
 
 .table-light {
@@ -14,7 +14,7 @@
 }
 
 .table-light th {
-    color: #4e73df !important;
+    color: #d19b98 !important;
     font-weight: 500;
     border: none;
     padding: 15px;
@@ -45,18 +45,18 @@
 
 .quantity-input:focus {
     outline: none;
-    border-color: #4e73df;
-    box-shadow: 0 0 0 0.2rem rgba(78,115,223,.25);
+    border-color: #d19b98;
+    box-shadow: 0 0 0 0.2rem rgba(209,155,152,.25);
 }
 
 .price-text {
-    color: #4e73df;
+    color: #d19b98;
     font-weight: 500;
 }
 
 .total-price {
     font-weight: 600;
-    color: #2e59d9;
+    color: #c08885;
 }
 
 .discount-badge {
@@ -151,9 +151,9 @@
 }
 
 .btn-quantity:hover {
-    background: #4e73df;
+    background: #d19b98;
     color: white;
-    border-color: #4e73df;
+    border-color: #d19b98;
 }
 
 .btn-quantity i {
@@ -172,8 +172,8 @@
 }
 
 .form-floating > .form-control:focus {
-    border-color: #bac8f3;
-    box-shadow: 0 0 0 0.2rem rgba(78,115,223,.25);
+    border-color: #e8d1cf;
+    box-shadow: 0 0 0 0.2rem rgba(209,155,152,.25);
 }
 
 .form-floating > textarea.form-control {
@@ -192,7 +192,7 @@
 }
 
 .breadcrumb-item a {
-    color: #4e73df;
+    color: #d19b98;
     text-decoration: none;
 }
 
@@ -201,7 +201,7 @@
 }
 
 .btn-primary {
-    background: #4e73df;
+    background: #d19b98;
     border: none;
     padding: 12px;
     font-weight: 500;
@@ -209,7 +209,7 @@
 }
 
 .btn-primary:hover {
-    background: #2e59d9;
+    background: #c08885;
     transform: translateY(-1px);
 }
 
@@ -248,6 +248,6 @@
 }
 
 .final-total {
-    color: #2e59d9;
+    color: #c08885;
     font-size: 1.2rem;
 }

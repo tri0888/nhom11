@@ -5,51 +5,61 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800">Quản lý chức năng</h1>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <h2 class="h4">Quản lý chức năng</h2>
+        <p class="mb-0">Danh sách tất cả chức năng trong hệ thống</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="@Url.Action("Create", "Roles")" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <i class="fas fa-plus me-2"></i>
+            Thêm chức năng
+        </a>
+    </div>
+</div>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Danh sách chức năng</h6>
-            <a href="@Url.Action("Create", "Roles")" class="btn btn-primary">
-                <i class="fas fa-plus mr-2"></i>Thêm chức năng
-            </a>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover datatable" width="100%" cellspacing="0">
-                    <thead>
+<div class="card border-0 shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-centered table-nowrap mb-0 rounded datatable">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="border-0">Mã chức năng</th>
+                        <th class="border-0">Tên chức năng</th>
+                        <th class="border-0 text-center" style="width: 100px">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
                         <tr>
-                            <th>Mã chức năng</th>
-                            <th>Tên chức năng</th>
-                            <th>Hành động</th>
+                            <td>@item.RoleId</td>
+                            <td>
+                                <span class="fw-normal">@item.Name</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a href="@Url.Action("Edit", "Roles", new { id = item.RoleId })" 
+                                       class="btn btn-sm btn-gray-800"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top"
+                                       title="Sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("DeleteRole", "Roles", new { area = "Admin" })" 
+                                       class="btn btn-sm btn-danger ms-2 btn-delete"
+                                       data-id="@item.RoleId"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top"
+                                       title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>@item.RoleId</td>
-                                <td>@item.Name</td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <a href="@Url.Action("Edit", "Roles", new { id = item.RoleId })" 
-                                           class="btn btn-warning btn-sm" title="Sửa">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="@Url.Action("DeleteRole", "Roles", new { area = "Admin" })" 
-                                           class="btn btn-danger btn-sm btn-delete" 
-                                           data-id="@item.RoleId"
-                                           title="Xóa">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -58,6 +68,13 @@
 @Html.Partial("_DeleteModal")
 
 @section Scripts {
-    <script src="~/Areas/Scripts/datatables-config.js"></script>
     <script src="~/Scripts/deleteModal.js"></script>
+    <script src="~/Areas/Scripts/datatables-config.js"></script>
+    <script>
+        // Khởi tạo tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 }

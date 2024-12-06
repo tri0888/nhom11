@@ -617,8 +617,6 @@ D:\website-ban-noi-that-main\WebsiteNoiThat\WebsiteNoiThat\bin\Antlr3.Runtime.pd
 D:\website-ban-noi-that-main\WebsiteNoiThat\WebsiteNoiThat\obj\Debug\WebsiteN.7BB65CC8.Up2Date
 D:\website-ban-noi-that-main\WebsiteNoiThat\WebsiteNoiThat\obj\Debug\WebsiteNoiThat.dll
 D:\website-ban-noi-that-main\WebsiteNoiThat\WebsiteNoiThat\obj\Debug\WebsiteNoiThat.pdb
-D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\obj\Debug\WebsiteNoiThat.csproj.AssemblyReference.cache
-D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\obj\Debug\WebsiteNoiThat.csproj.CoreCompileInputs.cache
 D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\bin\WebsiteNoiThat.dll.config
 D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\bin\WebsiteNoiThat.dll
 D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\bin\WebsiteNoiThat.pdb
@@ -704,6 +702,8 @@ D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\bin\System.Web.WebPages.Deploymen
 D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\bin\System.Web.WebPages.Razor.xml
 D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\bin\System.Web.Optimization.xml
 D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\bin\Antlr3.Runtime.pdb
+D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\obj\Debug\WebsiteNoiThat.csproj.AssemblyReference.cache
+D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\obj\Debug\WebsiteNoiThat.csproj.CoreCompileInputs.cache
 D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\obj\Debug\WebsiteN.7BB65CC8.Up2Date
 D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\obj\Debug\WebsiteNoiThat.dll
 D:\source\nhom11\WebsiteNoiThat\WebsiteNoiThat\obj\Debug\WebsiteNoiThat.pdb

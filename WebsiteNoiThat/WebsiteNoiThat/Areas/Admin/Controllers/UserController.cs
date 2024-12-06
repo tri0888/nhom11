@@ -17,7 +17,7 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
         [HasCredential(RoleId = "VIEW_USER")]
         public ActionResult Show()
         {
-            try 
+            try
             {
                 var session = (UserLogin)Session[Commoncontent.user_sesion_admin];
                 if (session == null)
@@ -31,7 +31,7 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
                     return View("~/Areas/Admin/Views/Shared/401.cshtml");
                 }
 
-                var model = db.Users.ToList();
+                var model = db.Users.Where(n => n.GroupId != "USER").ToList();
                 ViewBag.username = session.Username;
                 return View(model);
             }

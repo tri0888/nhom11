@@ -4,65 +4,79 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800">Quản lý nhân viên</h1>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <h2 class="h4">Quản lý nhân viên</h2>
+        <p class="mb-0">Danh sách tất cả nhân viên trong hệ thống</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="@Url.Action("Add", "User")" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <i class="fas fa-plus me-2"></i>
+            Thêm nhân viên
+        </a>
+    </div>
+</div>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
-            <a href="@Url.Action("Add", "User")" class="btn btn-primary">
-                <i class="fas fa-plus mr-2"></i>Thêm nhân viên
-            </a>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover datatable" width="100%" cellspacing="0">
-                    <thead>
+<div class="card border-0 shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-centered table-nowrap mb-0 rounded datatable">
+                <thead class="thead-light">
+                    <tr>
+                        <th style="width: 60px">ID</th>
+                        <th style="width: 150px">Họ tên</th>
+                        <th style="width: 120px">SĐT</th>
+                        <th style="width: 120px">Username</th>
+                        <th style="width: 180px">Email</th>
+                        <th style="width: 100px">Quyền</th>
+                        <th style="width: 100px">Trạng thái</th>
+                        <th style="width: 100px">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
                         <tr>
-                            <th>Mã nhân viên</th>
-                            <th>Họ tên</th>
-                            <th>Địa chỉ</th>
-                            <th>Số điện thoại</th>
-                            <th>Tên đăng nhập</th>
-                            <th>Mật khẩu</th>
-                            <th>Email</th>
-                            <th>Quyền</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
+                            <td>@item.UserId</td>
+                            <td>
+                                <span class="fw-normal text-wrap">@item.Name</span>
+                            </td>
+                            <td>
+                                <span class="fw-normal">@item.Phone</span>
+                            </td>
+                            <td>
+                                <span class="fw-normal">@item.Username</span>
+                            </td>
+                            <td>
+                                <span class="fw-normal text-wrap">@item.Email</span>
+                            </td>
+                            <td>
+                                <span class="fw-normal">@item.GroupId</span>
+                            </td>
+                            <td>
+                                <span class="fw-normal">@item.Status</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a href="@Url.Action("Edit", "User", new { UserId = item.UserId })" 
+                                       class="btn btn-sm btn-gray-800"
+                                       data-bs-toggle="tooltip"
+                                       title="Sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", "User" , new { UserId = item.UserId })" 
+                                       class="btn btn-sm btn-danger ms-2 btn-delete"
+                                       data-id="@item.UserId"
+                                       data-bs-toggle="tooltip"
+                                       title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>@item.UserId</td>
-                                <td>@item.Name</td>
-                                <td>@item.Address</td>
-                                <td>@item.Phone</td>
-                                <td>@item.Username</td>
-                                <td>******</td>
-                                <td>@item.Email</td>
-                                <td>@item.GroupId</td>
-                                <td>@item.Status</td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <a href="@Url.Action("Edit", "User", new { UserId = item.UserId })" 
-                                           class="btn btn-warning btn-sm" title="Sửa">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="@Url.Action("Delete", "User", new { userId = item.UserId })" 
-                                           class="btn btn-danger btn-sm btn-delete" 
-                                           data-id="@item.UserId"
-                                           title="Xóa">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -70,9 +84,13 @@
 @section Scripts {
     <script src="~/Areas/Scripts/datatables-config.js"></script>
     <script src="~/Scripts/deleteModal.js"></script>
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 }
 
 @Html.AntiForgeryToken()
 @Html.Partial("_DeleteModal")
-
-

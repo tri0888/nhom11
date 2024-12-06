@@ -19,11 +19,7 @@
                         </ol>
                     </nav>
 
-                    <div class="mb-4">
-                        <a href="/RegisterAndLogin/Login" class="btn btn-outline-secondary">
-                            <i class="fas fa-arrow-left me-2"></i>Bỏ qua đăng ký thẻ tích điểm
-                        </a>
-                    </div>
+
 
                     @if (!ViewData.ModelState.IsValid)
                     {
@@ -41,15 +37,13 @@
                         </div>
                     }
 
-                    @if (Model == null)
+                    @if (Model != null)
                     {
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <i class="fas fa-exclamation-circle me-2"></i>Bạn đã có thẻ tích điểm hoặc chưa đăng nhập!
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="mb-4">
+                            <a href="/Home/Index" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Bỏ qua đăng ký thẻ tích điểm
+                            </a>
                         </div>
-                    }
-                    else
-                    {
                         using (Html.BeginForm("Card", "RegisterAndLogin", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()

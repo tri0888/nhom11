@@ -4,69 +4,89 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800">Quản lý sản phẩm</h1>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <h2 class="h4">Quản lý sản phẩm</h2>
+        <p class="mb-0">Danh sách tất cả sản phẩm trong hệ thống</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="@Url.Action("Add", "Product")" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <i class="fas fa-plus me-2"></i>
+            Thêm sản phẩm
+        </a>
+    </div>
+</div>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm</h6>
-            <a href="@Url.Action("Add", "Product")" class="btn btn-primary">
-                <i class="fas fa-plus mr-2"></i>Thêm sản phẩm
-            </a>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover datatable" width="100%" cellspacing="0">
-                    <thead>
+<div class="card border-0 shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-centered table-nowrap mb-0 rounded datatable">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="border-0" style="width: 60px">ID</th>
+                        <th class="border-0" style="width: 200px">Tên SP</th>
+                        <th class="border-0 text-center" style="width: 80px">Ảnh</th>
+                        <th class="border-0" style="width: 200px">Mô tả</th>
+                        <th class="border-0" style="width: 120px">Danh mục</th>
+                        <th class="border-0 text-center" style="width: 80px">SL</th>
+                        <th class="border-0 text-center" style="width: 80px">KM</th>
+                        <th class="border-0 text-end" style="width: 120px">Giá</th>
+                        <th class="border-0 text-center" style="width: 100px">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Where(p => !p.IsHidden))
+                    {
                         <tr>
-                            <th>Mã SP</th>
-                            <th>Tên SP</th>
-                            <th class="text-center">Hình ảnh</th>
-                            <th>Mô tả</th>
-                            <th>Danh mục SP</th>
-                            <th>Nhà cung cấp</th>
-                            <th class="text-center">Số lượng</th>
-                            <th class="text-center">Khuyến mãi</th>
-                            <th class="text-right">Giá</th>
-                            <th class="text-center">Hành động</th>
+                            <td>@item.ProductId</td>
+                            <td>
+                                <span class="fw-normal text-wrap">@item.Name</span>
+                            </td>
+                            <td class="text-center">
+                                <img class="rounded" style="height:50px; width:50px; object-fit: cover;" 
+                                     src="@Url.Content("~/image/" + item.Photo)" 
+                                     alt="@item.Name">
+                            </td>
+                            <td>
+                                <span class="fw-normal text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    @item.Description
+                                </span>
+                            </td>
+                            <td>
+                                <span class="fw-normal text-wrap">@item.CateName</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="fw-normal">@item.Quantity</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="fw-normal">@item.Discount%</span>
+                            </td>
+                            <td class="text-end">
+                                <span class="fw-normal">@item.Price.GetValueOrDefault(0).ToString("N0")₫</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a href="@Url.Action("Edit", "Product", new { ProductId = item.ProductId })" 
+                                       class="btn btn-sm btn-gray-800" 
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top"
+                                       title="Sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", "Product")" 
+                                       class="btn btn-sm btn-danger ms-2 btn-delete" 
+                                       data-id="@item.ProductId"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top"
+                                       title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Where(p => !p.IsHidden))
-                        {
-                            <tr>
-                                <td>@item.ProductId</td>
-                                <td>@item.Name</td>
-                                <td class="text-center">
-                                    <img class="img-thumbnail" style="max-height:80px" 
-                                         src="@Url.Content("~/image/" + item.Photo)" 
-                                         alt="@item.Name">
-                                </td>
-                                <td>@item.Description</td>
-                                <td>@item.CateName</td>
-                                <td>@item.ProviderName</td>
-                                <td class="text-center">@item.Quantity</td>
-                                <td class="text-center">@item.Discount%</td>
-                                <td class="text-right">@item.Price.GetValueOrDefault(0).ToString("N0")₫</td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <a href="@Url.Action("Edit", "Product", new { ProductId = item.ProductId })" 
-                                           class="btn btn-warning btn-sm" title="Sửa">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="@Url.Action("Delete", "Product")" 
-                                           class="btn btn-danger btn-sm btn-delete" 
-                                           data-id="@item.ProductId"
-                                           title="Xóa">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -77,4 +97,11 @@
 @section Scripts {
     <script src="~/Scripts/deleteModal.js"></script>
     <script src="~/Areas/Scripts/datatables-config.js"></script>
+    <script>
+        // Khởi tạo tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 }
