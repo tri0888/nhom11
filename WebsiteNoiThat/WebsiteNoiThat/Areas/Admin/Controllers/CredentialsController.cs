@@ -39,7 +39,8 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
-            ViewBag.ListGroups = new SelectList(db.UserGroups.ToList(), "GroupId", "Name");
+            var userGroups = db.UserGroups.ToList();
+            ViewBag.ListGroups = new SelectList(userGroups, "GroupId", "Name");
             ViewBag.ListRoles = new SelectList(db.Roles.ToList(), "RoleId", "Name");
             return View();
         }
@@ -67,6 +68,8 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
                     if (exists)
                     {
                         ModelState.AddModelError("", "Quyền này đã được cấp cho nhóm người dùng");
+                        ViewBag.ListGroups = new SelectList(db.UserGroups.ToList(), "GroupId", "Name");
+                        ViewBag.ListRoles = new SelectList(db.Roles.ToList(), "RoleId", "Name");
                         return View(credential);
                     }
 

@@ -13,6 +13,11 @@ namespace Models.EF
 
         public int? NumberCard { get; set; }
 
-        public int? UserId { get; set; }
+        [Required]
+        public int UserId { get; set; }
+
+        // Navigation property
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
     }
 }

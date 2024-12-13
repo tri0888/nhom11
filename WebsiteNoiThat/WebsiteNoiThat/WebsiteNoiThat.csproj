@@ -171,11 +171,12 @@
     <Compile Include="Areas\Admin\Controllers\ProviderController.cs" />
     <Compile Include="Areas\Admin\Controllers\RolesController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
-    <Compile Include="Areas\Admin\Controllers\UserGroupsController.cs" />
     <Compile Include="Areas\Admin\Models\EmailConfig.cs" />
     <Compile Include="Areas\Admin\Models\OrderProduct.cs" />
     <Compile Include="Areas\Admin\Models\OrderView.cs" />
     <Compile Include="Areas\Admin\Models\LoginModel.cs" />
+    <Compile Include="Areas\Admin\Models\ProductViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\UserModelView.cs" />
     <Compile Include="Areas\Services\EmailService.cs" />
     <Compile Include="Common\Commoncontent.cs" />
     <Compile Include="Common\Encryptor.cs" />
@@ -188,20 +189,18 @@
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RegisterAndLoginController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CardModel.cs" />
     <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\HistoryCart.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
-    <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\UserModel.cs" />
-    <Compile Include="Models\UserModelView.cs" />
+    <Compile Include="Models\UserEditModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\UserLogin.cs" />
   </ItemGroup>
@@ -418,6 +417,7 @@
     <Content Include="Common\neworder.html" />
     <Content Include="Content\css\cart-styles.css" />
     <Content Include="Content\css\layout.css" />
+    <Content Include="Content\css\login-styles.css" />
     <Content Include="Content\css\sweetalert-responsive.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
@@ -658,9 +658,6 @@
     <Content Include="Areas\Admin\Views\ProductCate\Add.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCate\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCate\Show.cshtml" />
-    <Content Include="Areas\Admin\Views\CustomerMan\Show.cshtml" />
-    <Content Include="Areas\Admin\Views\CustomerMan\Add.cshtml" />
-    <Content Include="Areas\Admin\Views\CustomerMan\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Show.cshtml" />
     <Content Include="Areas\Admin\Views\Provider\Show.cshtml" />
     <Content Include="Areas\Admin\Views\Provider\Add.cshtml" />
@@ -677,20 +674,15 @@
     <Content Include="Areas\Admin\Views\Shared\401.cshtml" />
     <Content Include="Areas\Admin\Views\User\UserProfile.cshtml" />
     <Content Include="Areas\Admin\Views\Contact\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroups\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroups\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\UserGroups\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Credentials\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Credentials\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Credentials\Index2.cshtml" />
     <Content Include="Areas\Admin\Views\Orders\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Orders\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Orders\Show.cshtml" />
     <Content Include="Areas\Admin\Views\Credentials\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Credentials\Details.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="Areas\Admin\Views\Shared\_DeleteModal.cshtml" />
     <Content Include="Areas\Admin\Views\Report\Details.cshtml" />
@@ -740,14 +732,8 @@
     <Content Include="Views\RegisterAndLogin\Card.cshtml" />
     <Content Include="Views\Product\SearchFocus.cshtml" />
     <Content Include="Views\News\Show.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\RegisterAndLogin\ViewCurentUser.cshtml" />
     <Content Include="Views\RegisterAndLogin\EditCurentUser.cshtml" />
-    <Content Include="Views\Product\ProductHot.cshtml" />
     <Content Include="Views\Product\SaleProduct.cshtml" />
     <Content Include="Views\Cart\tai_khoan_bi_khoa.cshtml" />
   </ItemGroup>

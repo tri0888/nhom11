@@ -20,5 +20,12 @@
         public int? Price { get; set; }
         [DisplayName("Số lượng")]
         public int? Quantity { get; set; }
+
+        // Navigation properties
+        [ForeignKey("OrderId")]
+        public virtual Order Order { get; set; }
+
+        [ForeignKey("ProductId")]
+        public virtual Product Product { get; set; }
     }
 }

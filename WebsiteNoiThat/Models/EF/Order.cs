@@ -5,11 +5,15 @@
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Order")]
     public partial class Order
     {
+        public Order()
+        {
+            OrderDetails = new HashSet<OrderDetail>();
+        }
+
         [DisplayName("Mã hoá đơn")]
         public int OrderId { get; set; }
 
@@ -21,7 +25,7 @@
         public int? UserId { get; set; }
 
         [DisplayName("SĐT Người nhận")]
-        public int? ShipPhone { get; set; }
+        public string ShipPhone { get; set; }
 
         [DisplayName("Email người nhận")]
         public string ShipEmail { get; set; }
@@ -33,7 +37,17 @@
         [DisplayName("Địa chỉ nhận hàng")]
         public string ShipAddress { get; set; }
 
+        [Required]
         [DisplayName("Trạng thái đơn hàng")]
         public int StatusId { get; set; }
+
+        // Navigation properties
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
+
+        [ForeignKey("StatusId")]
+        public virtual Status Status { get; set; }
+
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

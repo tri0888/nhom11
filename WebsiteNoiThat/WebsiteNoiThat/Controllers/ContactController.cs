@@ -16,10 +16,6 @@ namespace WebsiteNoiThat.Controllers
     {
         // GET: Contact
         DBThoiTrang db= new DBThoiTrang();
-        public ActionResult Index()
-        {
-            return View();
-        }
         [HttpGet]
         public ActionResult Contacts()
         {

@@ -34,11 +34,13 @@ namespace WebsiteNoiThat.Models
         [Display(Name = "Email address")]
         [Required(ErrorMessage = "Yêu cầu nhập email")]
 
-        [EmailAddress(ErrorMessage = "The email address is not valid")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
         public string Email { set; get; }
 
         [Display(Name = "Điện thoại")]
-        public int Phone { set; get; }
+        [Required(ErrorMessage = "Số điện thoại không được để trống.")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Số điện thoại không hợp lệ.")]
+        public string Phone { set; get; }
 
         public int CartId { get; set; }
     }

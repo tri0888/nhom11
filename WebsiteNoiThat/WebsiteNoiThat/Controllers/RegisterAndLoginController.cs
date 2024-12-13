@@ -135,41 +135,56 @@ namespace WebsiteNoiThat.Controllers
         public ActionResult EditCurentUser()
         {
             var session = (UserLogin)Session[WebsiteNoiThat.Common.Commoncontent.user_sesion];
-            var model = db.Users.SingleOrDefault(n => n.UserId == session.UserId);
+            if (session == null)
+                return RedirectToAction("Login");
+
+            var user = db.Users.SingleOrDefault(n => n.UserId == session.UserId);
+            var model = new UserEditModel
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Name = user.Name,
+                Email = user.Email,
+                Phone = user.Phone,
+                Address = user.Address,
+                GroupId = user.GroupId,
+                Status = user.Status
+            };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCurentUser([Bind(Include = "UserId,Name,Address,Phone,Username,Password,Email,GroupId,Status")] User user)
+        public ActionResult EditCurentUser(UserEditModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var currentUser = db.Users.Find(user.UserId);
-                if (currentUser != null)
+                try
                 {
-                    // Cập nhật thông tin mới
-                    currentUser.Name = user.Name;
-                    currentUser.Address = user.Address;
-                    currentUser.Phone = user.Phone;
-                    currentUser.Email = user.Email;
-                    
-                    // Chỉ cập nhật mật khẩu nếu người dùng nhập mật khẩu mới
-                    if (!string.IsNullOrEmpty(user.Password?.Trim()))
+                    var currentUser = db.Users.Find(model.UserId);
+                    if (currentUser != null)
                     {
-                        currentUser.Password = Encryptor.MD5Hash(user.Password);
-                    }
+                        currentUser.Name = model.Name;
+                        currentUser.Address = model.Address;
+                        currentUser.Phone = model.Phone;
+                        currentUser.Email = model.Email;
+                        
+                        if (!string.IsNullOrEmpty(model.Password?.Trim()))
+                        {
+                            currentUser.Password = Encryptor.MD5Hash(model.Password);
+                        }
 
-                    db.SaveChanges();
-                    TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
-                    return RedirectToAction("ViewCurentUser");
+                        db.SaveChanges();
+                        TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
+                        return RedirectToAction("ViewCurentUser");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Có lỗi xảy ra khi cập nhật thông tin: " + ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Có lỗi xảy ra khi cập nhật thông tin: " + ex.Message);
-            }
-            return View(user);
+            return View(model);
         }
 
         [HttpGet]

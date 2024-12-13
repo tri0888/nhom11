@@ -9,7 +9,12 @@ namespace Models.EF
     [Table("Category")]
     public partial class Category
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Category()
+        {
+            Products = new HashSet<Product>();
+        }
+
+        [Key]
         public int CategoryId { get; set; }
 
         [StringLength(50)]
@@ -18,6 +23,9 @@ namespace Models.EF
         [StringLength(50)]
         public string MetaTitle { get; set; }
 
-        public int? ParId { get; set; }
+        public int ParId { get; set; }
+
+        // Navigation property
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

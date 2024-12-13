@@ -16,7 +16,7 @@ namespace WebsiteNoiThat.Models
         [StringLength(50)]
         public string Address { get; set; }
 
-        public int? Phone { get; set; }
+        public string Phone { get; set; }
 
         [StringLength(50)]
         public string Username { get; set; }
@@ -24,9 +24,9 @@ namespace WebsiteNoiThat.Models
         [StringLength(32)]
         public string Password { get; set; }
         [Display(Name = "Email address")]
-        [Required(ErrorMessage = "The email address is required")]
+        [Required(ErrorMessage = "Email không hợp lệ")]
 
-        [EmailAddress(ErrorMessage = "The email address is not valid")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
         public string Email { get; set; }
 
         [StringLength(50)]

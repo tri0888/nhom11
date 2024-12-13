@@ -10,18 +10,25 @@
     [Table("User")]
     public partial class User
     {
+        public User()
+        {
+            Orders = new HashSet<Order>();
+        }
+
+        [Key]
         public int UserId { get; set; }
 
         [StringLength(50)]
         [DisplayName("Tên")]
         public string Name { get; set; }
 
-        [StringLength(100)]
+        [StringLength(50)]
         [DisplayName("Địa chỉ")]
         public string Address { get; set; }
 
+        [StringLength(50)]
         [DisplayName("Số điện thoại")]
-        public int? Phone { get; set; }
+        public string Phone { get; set; }
 
         [StringLength(50)]
         [DisplayName("Tên đăng nhập")]
@@ -40,5 +47,10 @@
 
         [DisplayName("Trạng thái tài khoản")]
         public bool Status { get; set; }
+
+        // Navigation properties
+        public virtual ICollection<Order> Orders { get; set; }
+        [ForeignKey("GroupId")]
+        public virtual UserGroup UserGroup { get; set; }
     }
 }

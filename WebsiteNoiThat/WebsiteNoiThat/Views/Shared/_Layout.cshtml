@@ -62,15 +62,24 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-3 text-center text-lg-start mb-3 mb-lg-0">
-                    <a href="/" class="text-decoration-none">
-                        <h1 class="display-6 m-0 fw-bold"><span class="text-primary">THỜI</span>TRANG</h1>
+                    <a href="/" class="text-decoration-none d-flex align-items-center">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4359/4359963.png" alt="Logo" style="height: 80px; margin-right: 12px;"
+                             onerror="this.src='https://cdn-icons-png.flaticon.com/512/5968/5968778.png'">
+                        <div class="d-flex flex-column">
+                            <h1 class="h3 m-0 fw-bold" style="font-family: 'Playfair Display', serif; letter-spacing: 3px;">
+                                <span class="text-primary">THỜI</span>
+                                <span class="text-dark" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.15);">TRANG</span>
+                            </h1>
+                            <span class="text-muted small" style="letter-spacing: 4px; font-family: 'Poppins', sans-serif; font-weight: 300;">FASHION STORE</span>
+                        </div>
                     </a>
                 </div>
                 <div class="col-lg-6">
                     <form action="/tim-kiem" method="get" class="search-form">
-                        <div class="input-group">
-                            <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm sản phẩm...">
-                            <button type="submit" class="btn btn-primary">
+                        <div class="input-group shadow-sm">
+                            <input type="text" name="keyword" class="form-control border-end-0" 
+                                   placeholder="Tìm kiếm sản phẩm..." style="border-radius: 25px 0 0 25px;">
+                            <button type="submit" class="btn px-4" style="border-radius: 0 25px 25px 0;">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
@@ -79,9 +88,9 @@
                 <div class="col-lg-3">
                     <div class="d-flex justify-content-end align-items-center position-relative" style="z-index: 1100;">
                         @{ Html.RenderAction("ViewLogin", "RegisterAndLogin");}
-                        <a href="/gio-hang" class="btn btn-outline-primary ms-3 position-relative">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                        <a href="/gio-hang" class="btn btn-outline-primary ms-3 position-relative hover-shadow">
+                            <i class="fas fa-shopping-bag fa-lg"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
                                 @{ Html.RenderAction("HeaderCart", "Home");}
                             </span>
                         </a>
@@ -103,8 +112,8 @@
                     <a href="/Home/Index" class="nav-item nav-link">Trang chủ</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Danh mục</a>
-                        <div class="dropdown-menu">
-                            @{ Html.RenderAction("Menu", "CategoryProduct");}
+                        <div class="dropdown-menu border-0 shadow p-4" style="min-width: 300px; border-radius: 15px; background: rgba(255,255,255,0.98);">
+                            @{ Html.RenderAction("Menu", "CategoryProduct"); }
                         </div>
                     </div>
                     <a href="/Product/ShowProduct" class="nav-item nav-link">Sản phẩm</a>
@@ -250,13 +259,31 @@
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 
-
-    <!-- Template Javascript -->
-    <script src="~/Content/EShopper/js/main.js"></script>
     
 
     @RenderSection("Scripts", required: false)
     @RenderSection("jsFooter", required: false)
+
+    <script>
+        // Xử lý dropdown menu đa cấp
+        $('.dropdown-submenu > a').on("click", function(e) {
+            var submenu = $(this).next('.dropdown-menu');
+            $('.dropdown-submenu .dropdown-menu').not(submenu).hide();
+            submenu.toggle();
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        // Đóng submenu khi click ra ngoài
+        $(document).click(function() {
+            $('.dropdown-submenu .dropdown-menu').hide();
+        });
+
+        // Ngăn đóng dropdown chính khi click vào submenu
+        $('.dropdown-menu').click(function(e) {
+            e.stopPropagation();
+        });
+    </script>
 </body>
 
 </html>

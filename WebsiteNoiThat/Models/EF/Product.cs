@@ -5,13 +5,16 @@
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("Product")]
     public partial class Product
     {
-        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [DisplayName("Mã sản phẩm")]
+        public Product()
+        {
+            OrderDetails = new HashSet<OrderDetail>();
+        }
+
+        [Key]
         public int ProductId { get; set; }
 
         [StringLength(50)]
@@ -46,6 +49,19 @@
 
         [DisplayName("Giảm giá (%)")]
         public int? Discount { get; set; }
-        public bool IsHidden { get; set; } = true;
+
+        public bool IsHidden { get; set; }
+
+        [NotMapped]
+        public decimal? DiscountPrice { get; set; }
+
+        // Navigation properties
+        [ForeignKey("CateId")]
+        public virtual Category Category { get; set; }
+
+        [ForeignKey("ProviderId")]
+        public virtual Provider Provider { get; set; }
+
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

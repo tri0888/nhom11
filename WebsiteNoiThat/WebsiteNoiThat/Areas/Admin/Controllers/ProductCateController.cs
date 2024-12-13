@@ -18,11 +18,6 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
     {
         DBThoiTrang db = new DBThoiTrang();
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         [HasCredential(RoleId = "VIEW_CATE")]
         public ActionResult Show()
         {
@@ -38,6 +33,14 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
         {
             var session = (UserLogin)Session[WebsiteNoiThat.Common.Commoncontent.user_sesion_admin];
             ViewBag.username = session.Username;
+            
+            // Lấy danh sách loại cha để dropdown
+            ViewBag.ParentCategories = new SelectList(
+                db.Categories.Where(c => c.ParId == 0),
+                "CategoryId",
+                "Name"
+            );
+            
             return View();
         }
 
@@ -45,19 +48,41 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
         [HasCredential(RoleId = "ADD_CATE")]
         public ActionResult Add(Category n)
         {
-            var model = db.Categories.SingleOrDefault(a => a.CategoryId == n.CategoryId);
-            if (model != null)
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("CateError", "CategoryId already in use");
-                return View();
+                // Load lại dropdown nếu cần
+                ViewBag.ParentCategories = new SelectList(
+                    db.Categories.Where(c => c.ParId == 0),
+                    "CategoryId",
+                    "Name"
+                );
+                return View(n);
             }
-            else
+
+            try 
             {
+                // Đảm bảo ParId = 0 nếu không được chọn
+                if (n.ParId == null)
+                {
+                    n.ParId = 0;
+                }
+
                 db.Categories.Add(n);
                 db.SaveChanges();
                 return RedirectToAction("Show");
             }
-
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Có lỗi xảy ra khi thêm danh mục: " + ex.Message);
+                
+                // Load lại dropdown
+                ViewBag.ParentCategories = new SelectList(
+                    db.Categories.Where(c => c.ParId == 0),
+                    "CategoryId",
+                    "Name"
+                );
+                return View(n);
+            }
         }
 
         [HttpGet]
@@ -67,25 +92,74 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
             var session = (UserLogin)Session[WebsiteNoiThat.Common.Commoncontent.user_sesion_admin];
             ViewBag.username = session.Username;
 
-            Category a = db.Categories.SingleOrDefault(n => n.CategoryId == CategoryId);
-            return View(a);
+            Category category = db.Categories.Find(CategoryId);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
 
+            // Lấy danh sách loại cha để dropdown (trừ category hiện tại và các con của nó)
+            var parentCategories = db.Categories
+                .Where(c => c.ParId == 0 && c.CategoryId != CategoryId)
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CategoryId.ToString(),
+                    Text = c.Name,
+                    Selected = c.CategoryId == category.ParId
+                })
+                .ToList();
+
+            ViewBag.ParentCategories = parentCategories;
+            return View(category);
         }
 
         [HttpPost]
         [HasCredential(RoleId = "EDIT_CATE")]
-        public ActionResult Edit(Category n)
+        public ActionResult Edit(Category model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(n).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Show");
+                try
+                {
+                    var existingCategory = db.Categories.Find(model.CategoryId);
+                    if (existingCategory == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    // Nếu đang là loại cha, không cho phép chuyển thành loại con
+                    if (existingCategory.ParId == 0)
+                    {
+                        model.ParId = 0;
+                    }
+
+                    // Cập nhật các thuộc tính
+                    existingCategory.Name = model.Name;
+                    existingCategory.ParId = model.ParId;
+                    existingCategory.MetaTitle = model.MetaTitle;
+
+                    db.SaveChanges();
+                    return RedirectToAction("Show");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Có lỗi xảy ra: " + ex.Message);
+                }
             }
-            else
-            {
-                return JavaScript("alert('Error');");
-            }
+            
+            // Nếu có lỗi, load lại dropdown
+            var parentCategories = db.Categories
+                .Where(c => c.ParId == 0 && c.CategoryId != model.CategoryId)
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CategoryId.ToString(),
+                    Text = c.Name,
+                    Selected = c.CategoryId == model.ParId
+                })
+                .ToList();
+
+            ViewBag.ParentCategories = parentCategories;
+            return View(model);
         }
 
 
@@ -102,17 +176,31 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
                     return Json(new { success = false, message = "Không tìm thấy danh mục" });
                 }
 
+                // Kiểm tra xem có phải loại cha không
+                if (category.ParId == 0)
+                {
+                    // Kiểm tra xem có loại con nào không
+                    var childCategories = db.Categories.Any(c => c.ParId == category.CategoryId);
+                    if (childCategories)
+                    {
+                        return Json(new { 
+                            success = false, 
+                            message = "Không thể xóa loại cha khi còn loại con. Vui lòng xóa các loại con trước." 
+                        });
+                    }
+                }
+
                 // Kiểm tra xem có sản phẩm nào thuộc danh mục này không
                 var productCount = db.Products.Count(p => p.CateId == id);
                 if (productCount > 0)
                 {
                     return Json(new { 
                         success = false, 
-                        message = $"Không thể xóa danh mục này vì đang có {productCount} sản phẩm. Vui lòng chuyển hoặc xóa các sản phẩm trước khi xóa danh mục." 
+                        message = $"Không thể xóa danh mục này vì đang có {productCount} sản phẩm. Vui lòng chuyển hoặc xóa các sản phẩm trước." 
                     });
                 }
 
-                // Nếu không có sản phẩm nào thì tiến hành xóa
+                // Nếu không có sản phẩm và không có loại con thì tiến hành xóa
                 db.Categories.Remove(category);
                 db.SaveChanges();
 
@@ -125,8 +213,7 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
             {
                 return Json(new { 
                     success = false, 
-                    message = "Có lỗi xảy ra: " + ex.Message,
-                    details = ex.InnerException?.Message 
+                    message = "Có lỗi xảy ra: " + ex.Message
                 });
             }
         }

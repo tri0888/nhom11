@@ -1,4 +1,4 @@
-﻿@model List<Models.EF.Product>
+﻿@model List<Models.ProductView>
 @{
     ViewBag.Title = "Kết quả tìm kiếm";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -36,15 +36,20 @@
                         </div>
                         <div class="card-body text-center p-4">
                             <h5 class="card-title text-truncate mb-3">@sp.Name</h5>
-                            <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-                                @if (sp.Discount != 0 && sp.EndDate > DateTime.Now && sp.StartDate < DateTime.Now)
+                            <div class="d-flex flex-column align-items-center mb-3">
+                                @if (sp.Discount != 0)
                                 {
-                                    <span class="text-decoration-line-through text-muted">@sp.Price.GetValueOrDefault(0).ToString("N0")₫</span>
-                                    <span class="fs-5 text-danger fw-bold">@((sp.Price - (sp.Price * sp.Discount * 0.01)).GetValueOrDefault(0).ToString("N0"))₫</span>
+                                    <p class="fs-5 fw-bold text-danger mb-1">
+                                        @string.Format("{0:#,###.##}", sp.DiscountPrice)₫
+                                    </p>
+                                    <p class="text-decoration-line-through text-muted mb-0 small">
+                                        @sp.Price.GetValueOrDefault(0).ToString("N0")₫
+                                    </p>
                                 }
                                 else
                                 {
                                     <span class="fs-5 fw-bold">@sp.Price.GetValueOrDefault(0).ToString("N0")₫</span>
+                                    <br />
                                 }
                             </div>
                         </div>

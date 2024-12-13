@@ -14,12 +14,6 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
         DBThoiTrang db = new DBThoiTrang();
 
         [HasCredential(RoleId = "VIEW_PROVIDER")]
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        [HasCredential(RoleId = "VIEW_PROVIDER")]
         public ActionResult Show()
         {
             return View(db.Providers.ToList());

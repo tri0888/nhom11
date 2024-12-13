@@ -16,7 +16,7 @@ namespace WebsiteNoiThat.Models
         public string ShipName { get; set; }
 
 
-        public int? ShipPhone { get; set; }
+        public string ShipPhone { get; set; }
 
         public string ShipEmail { get; set; }
 

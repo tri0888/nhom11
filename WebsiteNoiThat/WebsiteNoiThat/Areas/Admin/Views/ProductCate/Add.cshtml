@@ -16,7 +16,12 @@
             @using (Html.BeginForm("Add", "ProductCate", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    </div>
+                }
 
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -28,17 +33,23 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Diễn giải</th>
+                            <th>Loại sản phẩm cha</th>
                             <td>
-                                @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @required = "" } })
-                                @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.ParId, 
+                                    new SelectList(ViewBag.ParentCategories, "Value", "Text"),
+                                    "-- Đây là loại sản phẩm cha --",
+                                    new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ParId, "", new { @class = "text-danger" })
+                                <small class="form-text text-muted">
+                                    Để trống nếu đây là loại sản phẩm cha
+                                </small>
                             </td>
                         </tr>
                         <tr>
-                            <th>Mã loại cha</th>
+                            <th>Diễn giải</th>
                             <td>
-                                @Html.EditorFor(model => model.ParId, new { htmlAttributes = new { @class = "form-control", @required = "" } })
-                                @Html.ValidationMessageFor(model => model.ParId, "", new { @class = "text-danger" })
+                                @Html.TextAreaFor(model => model.MetaTitle, new { @class = "form-control", rows = "3" })
+                                @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
                             </td>
                         </tr>
                     </table>

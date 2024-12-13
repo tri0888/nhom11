@@ -23,20 +23,5 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
                 return Redirect("~/Admin/Login");
             }
         }
-        //public ActionResult Show()
-        //{
-        //    var session = (UserLogin)Session[WebsiteNoiThat.Common.Commoncontent.user_sesion_admin];
-        //    if (session != null)
-        //    {
-        //        ViewBag.username = session.Username;
-        //        return View();
-
-        //    }
-        //    else
-        //    {
-        //        return Redirect("~/Admin/Login");
-        //    }
-        //}
-
     }
 }

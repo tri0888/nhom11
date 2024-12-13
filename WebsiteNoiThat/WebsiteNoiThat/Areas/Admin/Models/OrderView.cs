@@ -20,7 +20,7 @@ namespace WebsiteNoiThat.Areas.Admin.Models
         public string ShipName { get; set; }
 
         [DisplayName("SĐT Người nhận")]
-        public int? ShipPhone { get; set; }
+        public string ShipPhone { get; set; }
 
         [DisplayName("Địa chỉ nhận hàng")]
         public string ShipAddress { get; set; }

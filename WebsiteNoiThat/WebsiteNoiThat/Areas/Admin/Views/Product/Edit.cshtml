@@ -17,6 +17,12 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.ProductId)
+                if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    </div>
+                }
 
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -32,9 +38,20 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Loại sản phẩm</th>
+                            <th>Loại sản phẩm cha</th>
                             <td>
-                                @Html.DropDownListFor(model => model.CateId, ViewBag.ListCate as SelectList, new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.ParentCateId, 
+                                    new SelectList(ViewBag.ParentCategories, "Value", "Text"),
+                                    new { @class = "form-control", @id = "parentCateSelect", @required = "" })
+                                @Html.ValidationMessageFor(model => model.ParentCateId, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Loại sản phẩm con</th>
+                            <td>
+                                @Html.DropDownListFor(model => model.CateId,
+                                    new SelectList(ViewBag.ChildCategories, "Value", "Text"),
+                                    new { @class = "form-control", @id = "childCateSelect", @required = "" })
                                 @Html.ValidationMessageFor(model => model.CateId, "", new { @class = "text-danger" })
                             </td>
                         </tr>
@@ -69,7 +86,7 @@
                         <tr>
                             <th>Giảm giá</th>
                             <td>
-                                @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
                             </td>
                         </tr>
@@ -127,6 +144,22 @@
                 $('.custom-file-label').text(input.files[0].name);
             }
         }
+
+        $(document).ready(function() {
+            $("#parentCateSelect").change(function() {
+                var parentId = $(this).val();
+                $("#childCateSelect").empty();
+                
+                if (parentId) {
+                    $.get("/Admin/Product/GetChildCategories", { parentId: parentId }, function(data) {
+                        $("#childCateSelect").append('<option value="">-- Chọn loại sản phẩm con --</option>');
+                        $.each(data, function(index, item) {
+                            $("#childCateSelect").append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                        });
+                    });
+                }
+            });
+        });
     </script>
 }
 

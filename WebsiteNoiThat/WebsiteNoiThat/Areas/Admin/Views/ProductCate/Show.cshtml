@@ -26,7 +26,7 @@
                         <th class="border-0" style="width: 80px">ID</th>
                         <th class="border-0" style="width: 250px">Tên loại SP</th>
                         <th class="border-0" style="width: 300px">Diễn giải</th>
-                        <th class="border-0" style="width: 120px">Mã loại cha</th>
+                        <th class="border-0" style="width: 120px">Loại</th>
                         <th class="border-0 text-center" style="width: 100px">Thao tác</th>
                     </tr>
                 </thead>
@@ -36,7 +36,13 @@
                         <tr>
                             <td>@item.CategoryId</td>
                             <td>
-                                <span class="fw-normal text-wrap">@item.Name</span>
+                                <span class="fw-normal text-wrap">
+                                    @if(item.ParId != 0)
+                                    {
+                                        <span class="ms-3">└─</span>
+                                    }
+                                    @item.Name
+                                </span>
                             </td>
                             <td>
                                 <span class="fw-normal text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
@@ -44,7 +50,9 @@
                                 </span>
                             </td>
                             <td>
-                                <span class="fw-normal">@(item.ParId)</span>
+                                <span class="fw-normal">
+                                    @(item.ParId == 0 ? "Loại cha" : "Loại con")
+                                </span>
                             </td>
                             <td class="text-center">
                                 <div class="btn-group">
@@ -60,7 +68,8 @@
                                        data-id="@item.CategoryId"
                                        data-bs-toggle="tooltip"
                                        data-bs-placement="top"
-                                       title="Xóa">
+                                       title="Xóa"
+                                       @(item.ParId == 0 ? "data-is-parent=true" : "")>
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </div>

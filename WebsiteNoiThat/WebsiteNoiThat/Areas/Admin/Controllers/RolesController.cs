@@ -24,26 +24,7 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
             ViewBag.username = session.Username;
 
             return View(db.Roles.ToList());
-        }
-
-        // GET: Admin/Roles/Details/5
-        [HasCredential(RoleId = "VIEW_ROLE")]
-        public ActionResult Details(string id)
-        {
-            var session = (UserLogin)Session[WebsiteNoiThat.Common.Commoncontent.user_sesion_admin];
-            ViewBag.username = session.Username;
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Role role = db.Roles.Find(id);
-            if (role == null)
-            {
-                return HttpNotFound();
-            }
-            return View(role);
-        }
+        }       
 
         // GET: Admin/Roles/Create
         [HasCredential(RoleId = "ADD_ROLE")]
@@ -73,6 +54,7 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
             return View(role);
         }
 
+
         // GET: Admin/Roles/Edit/5
         [HasCredential(RoleId = "EDIT_ROLE")]
         public ActionResult Edit(string id)
@@ -92,9 +74,6 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
             return View(role);
         }
 
-        // POST: Admin/Roles/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [HasCredential(RoleId = "EDIT_ROLE")]

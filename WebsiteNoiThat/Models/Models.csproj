@@ -60,7 +60,6 @@
   <ItemGroup>
     <Compile Include="Common\CommonConstant.cs" />
     <Compile Include="Common\DateGreaterThanAttribute.cs" />
-    <Compile Include="CredentialViewModel.cs" />
     <Compile Include="DAO\CategoryDao.cs" />
     <Compile Include="DAO\NewsDao.cs" />
     <Compile Include="DAO\OrderDao.cs" />

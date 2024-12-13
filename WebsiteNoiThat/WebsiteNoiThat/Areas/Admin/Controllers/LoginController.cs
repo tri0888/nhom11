@@ -58,6 +58,10 @@ namespace WebsiteNoiThat.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError("", "Mật khẩu không đúng!");
                 }
+                else if (result == -3)
+                {
+                    ModelState.AddModelError("", "Tài khoản của bạn không có quyền đăng nhập.");
+                }
             }
             return View("Index", model);
         }

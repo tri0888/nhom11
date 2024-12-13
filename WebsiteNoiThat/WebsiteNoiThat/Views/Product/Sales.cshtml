@@ -1,6 +1,6 @@
 ﻿@using PagedList.Mvc;
 @using PagedList;
-@model PagedList.PagedList<Models.EF.Product>
+@model PagedList.PagedList<Models.ProductView>
 
 <div class="text-center mb-5">
     <h2 class="position-relative d-inline-block">
@@ -29,9 +29,21 @@
                 </div>
                 <div class="card-body text-center p-4">
                     <h5 class="card-title text-truncate mb-3">@product.Name</h5>
-                    <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-                        <span class="text-decoration-line-through text-muted">@product.Price.GetValueOrDefault(0).ToString("N0")₫</span>
-                        <span class="fs-5 text-danger fw-bold">@string.Format("{0:#,###.##}", (product.Price - (product.Price * product.Discount * 0.01)))₫</span>
+                    <div class="d-flex flex-column align-items-center mb-3">
+                        @if (product.Discount != 0)
+                        {
+                            <p class="fs-5 fw-bold text-danger mb-1">
+                                @string.Format("{0:#,###.##}", product.DiscountPrice)₫
+                            </p>
+                            <p class="text-decoration-line-through text-muted mb-0 small">
+                                @product.Price.GetValueOrDefault(0).ToString("N0")₫
+                            </p>
+                        }
+                        else
+                        {
+                            <span class="fs-5 fw-bold">@product.Price.GetValueOrDefault(0).ToString("N0")₫</span>
+                            <br />
+                        }
                     </div>
                 </div>
                 <div class="card-footer bg-transparent border-0 p-4">
@@ -59,10 +71,8 @@
                 @Html.PagedListPager(Model, page => Url.Action("Sales", new { page }), 
                     new PagedListRenderOptions {
                         LiElementClasses = new string[] { "page-item" },
-                        LinkToFirstPageFormat = "««",
                         LinkToPreviousPageFormat = "«",
                         LinkToNextPageFormat = "»",
-                        LinkToLastPageFormat = "»»",
                         ContainerDivClasses = new string[] { "d-flex", "justify-content-center" }
                     })
             </ul>

@@ -35,20 +35,21 @@ namespace WebsiteNoiThat.Models
 
         [Required(ErrorMessage = "Vui lòng nhập giá")]
         [Display(Name = "Giá")]
+        [Range(-1, int.MaxValue, ErrorMessage = "Giá không hợp lệ")]
         public int? Price { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập số lượng")]
         [Display(Name = "Số lượng")]
+        [Range(-1, int.MaxValue, ErrorMessage = "Số lượng không hợp lệ")]
         public int? Quantity { get; set; }
 
-        [Display(Name = "Khuyến mãi")]
+        [Display(Name = "Giảm giá")]
+        [Range(-1, int.MaxValue, ErrorMessage = "Giảm giá không hợp lệ")]
         public int? Discount { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng chọn ngày bắt đầu")]
         [Display(Name = "Ngày bắt đầu")]
         public DateTime? StartDate { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng chọn ngày kết thúc")]
         [Display(Name = "Ngày kết thúc")]
         public DateTime? EndDate { get; set; }
 
@@ -59,5 +60,7 @@ namespace WebsiteNoiThat.Models
 
         [Display(Name = "Tên nhà cung cấp")]
         public string ProviderName { get; set; }
+
+        public int? ParentCateId { get; set; }
     }
 }
