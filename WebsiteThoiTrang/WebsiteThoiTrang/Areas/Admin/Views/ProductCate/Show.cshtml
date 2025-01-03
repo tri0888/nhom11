@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Models.EF.Category>
+@{
+    ViewBag.Title = "Quản lý loại sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <h2 class="h4">Quản lý loại sản phẩm</h2>
+        <p class="mb-0">Danh sách tất cả loại sản phẩm trong hệ thống</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="@Url.Action("Add", "ProductCate")" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <i class="fas fa-plus me-2"></i>
+            Thêm loại sản phẩm
+        </a>
+    </div>
+</div>
+
+<div class="card border-0 shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-centered table-nowrap mb-0 rounded datatable">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="border-0" style="width: 80px">ID</th>
+                        <th class="border-0" style="width: 250px">Tên loại SP</th>
+                        <th class="border-0" style="width: 300px">Diễn giải</th>
+                        <th class="border-0" style="width: 120px">Loại</th>
+                        <th class="border-0 text-center" style="width: 100px">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.CategoryId</td>
+                            <td>
+                                <span class="fw-normal text-wrap">
+                                    @if(item.ParId != 0)
+                                    {
+                                        <span class="ms-3">└─</span>
+                                    }
+                                    @item.Name
+                                </span>
+                            </td>
+                            <td>
+                                <span class="fw-normal text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    @item.MetaTitle
+                                </span>
+                            </td>
+                            <td>
+                                <span class="fw-normal">
+                                    @(item.ParId == 0 ? "Loại cha" : "Loại con")
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a href="@Url.Action("Edit", "ProductCate", new { CategoryId = item.CategoryId })" 
+                                       class="btn btn-sm btn-gray-800" 
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top"
+                                       title="Sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete", "ProductCate")" 
+                                       class="btn btn-sm btn-danger ms-2 btn-delete" 
+                                       data-id="@item.CategoryId"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top"
+                                       title="Xóa"
+                                       @(item.ParId == 0 ? "data-is-parent=true" : "")>
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+@Html.Partial("_DeleteModal")
+
+@section Scripts {
+    <script src="~/Scripts/deleteModal.js"></script>
+    <script src="~/Areas/Scripts/datatables-config.js"></script>
+    <script>
+        // Khởi tạo tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}
+
+

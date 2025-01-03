@@ -1,0 +1,53 @@
+﻿@model Models.EF.News
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <article class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <header class="text-center mb-5">
+                        <h1 class="display-4 fw-bold text-primary mb-4">@Model.Title</h1>
+                        <div class="text-muted">
+                            <i class="far fa-calendar-alt me-2"></i>
+                            <time datetime="@Model.DateUpdate.Value.ToString("yyyy-MM-dd")">
+                                @Model.DateUpdate.Value.ToString("dd/MM/yyyy HH:mm")
+                            </time>
+                        </div>
+                    </header>
+
+                    <figure class="text-center mb-5">
+                        <img class="img-fluid rounded shadow-sm" 
+                             src="@Url.Content("~/image/" + Model.Photo)" 
+                             alt="@Model.Title"
+                             style="max-width: 100%; height: auto;">
+                    </figure>
+
+                    <div class="news-content lh-lg fs-5">
+                        @Html.Raw(Model.Detail)
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+
+<style>
+.news-content {
+    color: #4a4a4a;
+}
+
+.news-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.news-content p {
+    margin-bottom: 1.5rem;
+}
+</style>

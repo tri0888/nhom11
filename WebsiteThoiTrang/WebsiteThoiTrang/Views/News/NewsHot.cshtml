@@ -1,0 +1,21 @@
+﻿@model List<Models.EF.News>
+
+@foreach (var news in Model)
+{
+    <div class="card border-0 shadow-sm mb-4 hover-zoom" style="width: 350px; height: 500px;">
+        <div class="position-relative overflow-hidden" style="height: 250px;">
+            <a href="/News/Show?NewsId=@news.NewsId" class="text-decoration-none">
+                <img class="img-fluid w-100 rounded-top" src="@Url.Content("~/image/" + news.Photo)" alt="@news.Title" style="height: 100%; width: 100%; object-fit: cover;">
+                <div class="overlay-gradient"></div>
+            </a>
+        </div>
+        <div class="card-body text-center p-4">
+            <h4 class="card-title fw-bold mb-3 text-primary">@news.Title</h4>
+            <p class="card-text text-muted mb-3" style="line-height: 1.6; height: 100px; overflow: hidden;">@news.Detail</p>
+            <a href="/News/Show?NewsId=@news.NewsId" class="btn btn-outline-primary rounded-pill px-4">
+                Xem thêm <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Slider {
+    <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @{
+                string[] slides = { "slide1.jpg", "slide2.jpg", "slide3.jpg", "slide4.jpg" };
+                for (int i = 0; i < slides.Length; i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")" style="height: 410px;">
+                        <img class="img-fluid" src="~/image/@slides[i]" alt="Image">
+                    </div>
+                }
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+}
+
+<!-- Featured Start -->
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5 pb-3">
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">Sản Phẩm Chất Lượng</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                <h1 class="fa fa-shipping-fast text-primary m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">Miễn Phí Vận Chuyển</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">14 Ngày Đổi Trả</h5>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
+                <h5 class="font-weight-semi-bold m-0">Hỗ Trợ 24/7</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Featured End -->
+
+<!-- Products Start -->
+<div class="container-fluid pt-5">
+    <!-- Sản phẩm mới -->
+    <div class="product-section mb-5 position-relative" 
+         style="background: rgba(255,255,255,0.8);
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 30px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);">
+        <div class="glowing-border" style="position: absolute; inset: 0; border-radius: 20px; z-index: -1;
+                                         background: linear-gradient(45deg, #ff6b6b, #4facfe, #00f2fe, #ffd93d);
+                                         filter: blur(15px); opacity: 0.5;"></div>
+        <div class="text-center mb-4 position-relative">
+            <h2 class="section-title">
+                <span class="px-4 py-2" style="background: rgba(255,255,255,0.95); 
+                                              border-radius: 15px;
+                                              position: relative;
+                                              display: inline-block;">
+                    ✨ Sản Phẩm Mới
+                    <div class="moving-gradient" style="position: absolute; inset: 0; border-radius: 15px;
+                                                      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+                                                      animation: shine 3s infinite;"></div>
+                </span>
+            </h2>
+        </div>
+        <div class="row px-xl-5">
+            @Html.Action("NewProduct", "Product")
+        </div>
+    </div>
+
+    <!-- Sản phẩm khuyến mãi -->
+    <div class="product-section mb-5 position-relative" 
+         style="background: rgba(255,255,255,0.8);
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 30px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);">
+        <div class="glowing-border" style="position: absolute; inset: 0; border-radius: 20px; z-index: -1;
+                                         background: linear-gradient(45deg, #FF416C, #FF4B2B, #f7797d);
+                                         filter: blur(15px); opacity: 0.5;"></div>
+        <div class="text-center mb-4">
+            <h2 class="section-title">
+                <span class="px-4 py-2" style="background: rgba(255,255,255,0.95); 
+                                              border-radius: 15px;
+                                              position: relative;
+                                              display: inline-block;">
+                    🔥 Sản Phẩm Khuyến Mãi
+                    <div class="moving-gradient"></div>
+                </span>
+            </h2>
+        </div>
+        <div class="row px-xl-5">
+            @Html.Action("SaleProduct", "Product")
+        </div>
+    </div>
+
+    <!-- Thời trang Hàn Quốc -->
+    <div class="product-section mb-5 position-relative" 
+         style="background: rgba(255,255,255,0.8);
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 30px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);">
+        <div class="glowing-border" style="position: absolute; inset: 0; border-radius: 20px; z-index: -1;
+                                         background: linear-gradient(45deg, #a8edea, #fed6e3, #c2e9fb);
+                                         filter: blur(15px); opacity: 0.5;"></div>
+        <div class="text-center mb-4">
+            <h2 class="section-title">
+                <span class="px-4 py-2" style="background: rgba(255,255,255,0.95); 
+                                              border-radius: 15px;
+                                              position: relative;
+                                              display: inline-block;">
+                    🌸 Thời Trang Hàn Quốc
+                    <div class="moving-gradient"></div>
+                </span>
+            </h2>
+        </div>
+        <div class="row px-xl-5">
+            @Html.Action("CateKorea", "Product")
+        </div>
+    </div>
+
+    <!-- Thời trang Havana -->
+    <div class="product-section mb-5 position-relative" 
+         style="background: rgba(255,255,255,0.8);
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.3);
+                padding: 30px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);">
+        <div class="glowing-border" style="position: absolute; inset: 0; border-radius: 20px; z-index: -1;
+                                         background: linear-gradient(45deg, #fad0c4, #ffd1ff, #fbc2eb);
+                                         filter: blur(15px); opacity: 0.5;"></div>
+        <div class="text-center mb-4">
+            <h2 class="section-title">
+                <span class="px-4 py-2" style="background: rgba(255,255,255,0.95); 
+                                              border-radius: 15px;
+                                              position: relative;
+                                              display: inline-block;">
+                    🌴 Thời Trang Havana
+                    <div class="moving-gradient"></div>
+                </span>
+            </h2>
+        </div>
+        <div class="row px-xl-5">
+            @Html.Action("CateHavana", "Product")
+        </div>
+    </div>
+</div>
+
+<style>
+
+</style>
+<!-- Products End -->

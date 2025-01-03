@@ -1,0 +1,217 @@
+﻿﻿@model Models.EF.User
+@{
+    ViewBag.Title = "Thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/Content/css/cart-styles.css">
+}
+
+<div class="container py-5">
+    @if (ViewBag.ListItem.Count > 0)
+    {
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/" class="text-decoration-none">
+                        <i class="fas fa-home"></i> Trang chủ
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/Cart" class="text-decoration-none">Giỏ hàng</a>
+                </li>
+                <li class="breadcrumb-item active">Thanh toán</li>
+            </ol>
+        </nav>
+
+        <div class="row g-4">
+            <!-- Cột thông tin giỏ hàng -->
+            <div class="col-lg-7">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-header bg-primary bg-gradient text-white py-3">
+                        <h5 class="mb-0">
+                            <i class="fas fa-shopping-cart me-2"></i>Thông tin đơn hàng
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="card border-0 shadow-sm mb-4">
+                            <div class="card-header bg-primary bg-gradient text-white py-3">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-coins me-2"></i>Sử dụng điểm tích lũy
+                                </h5>
+                            </div>
+                            <div class="card-body p-4">
+                                @if (ViewBag.UserCard != null)
+                                {
+                                    <div class="card mb-3 border-primary bg-light">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <i class="fas fa-credit-card text-primary fa-2x"></i>
+                                                <div class="text-end">
+                                                    <small class="text-muted d-block">Số điểm hiện có:</small>
+                                                    <span class="fs-5 fw-bold text-primary">@ViewBag.UserCard.NumberCard điểm</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="number" id="pointsToUse" class="form-control form-control-lg"
+                                               placeholder="Nhập số điểm" min="0" max="@ViewBag.UserCard.NumberCard" />
+                                        <button type="button" class="btn btn-primary px-4"
+                                                onclick="usePoints(@ViewBag.UserCard.NumberCard)">
+                                            <i class="fas fa-check me-2"></i>Sử dụng điểm
+                                        </button>
+                                    </div>
+                                    <div id="pointsMessage" class="form-text mt-2"></div>
+                                }
+                                else
+                                {
+                                    <div class="text-center py-4">
+                                        <i class="fas fa-info-circle text-muted fa-3x mb-3"></i>
+                                        <p class="text-muted mb-0">Bạn chưa có thẻ tích điểm</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Mã SP</th>
+                                        <th scope="col">Tên SP</th>
+                                        <th scope="col" class="text-center">Số lượng</th>
+                                        <th scope="col" class="text-end">Đơn giá</th>
+                                        <th scope="col" class="text-center">Khuyến mãi</th>
+                                        <th scope="col" class="text-end">Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.ListItem)
+                                    {
+                                        <tr>
+                                            <td>@item.Product.ProductId</td>
+                                            <td>@item.Product.Name</td>
+                                            <td class="text-center">@item.Quantity</td>
+                                            <td class="text-end">@(item.Product.Price?.ToString("N0") ?? "0")₫</td>
+                                            <td class="text-center">
+                                                @if (item.Product.Discount > 0)
+                                                {
+                                                    <span class="badge bg-danger">-@(item.Product.Discount)%</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">0%</span>
+                                                }
+                                            </td>
+                                            <td class="text-end fw-bold text-primary">
+                                                @{
+                                                    var price = item.Product.Price ?? 0;
+                                                    var discount = item.Product.Discount > 0 ? item.Product.Discount : 0;
+                                                    var quantity = item.Quantity > 0 ? item.Quantity : 1;
+                                                    var total = (price - (price * discount * 0.01)) * quantity;
+                                                }
+                                                @total.ToString("#,###.##")₫
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="card bg-light mt-4 border-0">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Tổng tiền hàng:</span>
+                                    <span class="fw-bold">@ViewBag.Total.ToString("N0")₫</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2 points-discount">
+                                    <span>Giảm giá từ điểm:</span>
+                                    <span class="discount-amount text-danger fw-bold">-0₫</span>
+                                </div>
+                                <div class="d-flex justify-content-between border-top pt-3 mt-2">
+                                    <span class="h5 mb-0">Thành tiền:</span>
+                                    <span class="h4 mb-0 text-primary fw-bold final-total">@ViewBag.Total.ToString("N0")₫</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form thông tin người nhận -->
+            <div class="col-lg-5">
+                <div class="card shadow border-0">
+                    <div class="card-header bg-primary bg-gradient text-white py-3">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user me-2"></i>Thông tin người nhận
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        @using (Html.BeginForm("PayBy", "Cart", FormMethod.Post, new { @class = "needs-validation", id = "paymentForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Họ và tên</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger small mt-1" })
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Số điện thoại</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger small mt-1" })
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger small mt-1" })
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Địa chỉ nhận hàng</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                    @Html.TextAreaFor(model => model.Address, new { @class = "form-control", rows = "3" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger small mt-1" })
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg w-100" onclick="return ConfirmOrder()">
+                                <i class="fas fa-check-circle me-2"></i>Xác nhận đặt hàng
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">Giỏ hàng trống</h4>
+            <p class="text-muted mb-4">Chưa có sản phẩm nào trong giỏ hàng của bạn</p>
+            <a href="/" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-2"></i>Quay lại mua sắm
+            </a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/cartcontroller.js"></script>
+}

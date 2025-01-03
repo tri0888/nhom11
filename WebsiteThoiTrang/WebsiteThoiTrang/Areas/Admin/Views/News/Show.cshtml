@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Models.EF.News>
+
+@{
+    ViewBag.Title = "Quản lý tin tức";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <h2 class="h4">Quản lý tin tức</h2>
+        <p class="mb-0">Danh sách tất cả tin tức trong hệ thống</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="@Url.Action("Add", "News")" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+            <i class="fas fa-plus me-2"></i>
+            Thêm tin tức
+        </a>
+    </div>
+</div>
+
+<div class="card border-0 shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            @using (Html.BeginForm("Delete", "News", FormMethod.Post))
+            {
+                <table class="table table-centered table-nowrap mb-0 rounded datatable">
+                    <thead class="thead-light">
+                        <tr>
+                            <th style="width: 80px">Mã TT</th>
+                            <th style="width: 200px">Tiêu đề</th>
+                            <th style="width: 300px">Chi tiết</th>
+                            <th class="text-center" style="width: 120px">Hình ảnh</th>
+                            <th style="width: 120px">Ngày cập nhật</th>
+                            <th class="text-center" style="width: 100px">Thao tác</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.NewsId</td>
+                                <td>
+                                    <span class="fw-normal text-wrap">@item.Title</span>
+                                </td>
+                                <td>
+                                    <span class="fw-normal text-wrap" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                        @item.Detail
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <img class="rounded" style="height:50px; width:50px; object-fit: cover;" 
+                                         src="@Url.Content("~/image/" + item.Photo)" 
+                                         alt="@item.Title"/>
+                                </td>
+                                <td>
+                                    <span class="fw-normal">@(item.DateUpdate != null ? ((DateTime)item.DateUpdate).ToString("dd/MM/yyyy") : "")</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("Edit", "News", new { NewsId = item.NewsId })" 
+                                           class="btn btn-sm btn-gray-800" 
+                                           data-bs-toggle="tooltip"
+                                           data-bs-placement="top"
+                                           title="Sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", "News")" 
+                                           class="btn btn-sm btn-danger ms-2 btn-delete" 
+                                           data-id="@item.NewsId"
+                                           data-bs-toggle="tooltip"
+                                           data-bs-placement="top"
+                                           title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+@Html.Partial("_DeleteModal")
+
+@section scripts {
+    <script src="~/Scripts/deleteModal.js"></script>
+    <script src="~/Areas/Scripts/datatables-config.js"></script>
+}
